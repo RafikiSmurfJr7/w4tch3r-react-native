@@ -6,6 +6,7 @@ import { ThemeColor } from "../context/ThemeColor";
 import { getColorsFromContext } from "../utils/functions";
 import { HomeScreenStyles } from "../types/Styles";
 import Filters from "../components/Filters";
+import SerieList from "../components/SerieList";
 
 export default function HomeScreen({ navigation }: HomeScreenProps) {
   const colors = useContext(ThemeColor);
@@ -32,6 +33,9 @@ export default function HomeScreen({ navigation }: HomeScreenProps) {
       </View>
       <View style={styles.subContainerFilter}>
         <Filters />
+      </View>
+      <View>
+        <SerieList />
       </View>
     </View>
   );

@@ -11,7 +11,7 @@ export default function MovieNameFilterInput() {
   const styles: MovieNameFilterInputStyles = {
     input: {
       width: 300,
-      height: 30,
+      height: 35,
       backgroundColor: "white",
       marginHorizontal: 25,
       borderRadius: 8,
@@ -20,15 +20,20 @@ export default function MovieNameFilterInput() {
     searchIcon: {
       position: "absolute",
       right: 35,
-      top: 3.5,
+      top: 5,
     },
   };
 
   return (
     <View>
-      <TextInput style={styles.input} placeholder="Movie name..." />
+      <TextInput style={styles.input} placeholder="Serie name..." />
       <View style={styles.searchIcon}>
-        <Icon name="search" type="font-awesome" color={colors.grey} size={20} />
+        <Icon
+          name="search"
+          type="font-awesome"
+          color={colors.greyDark}
+          size={20}
+        />
       </View>
     </View>
   );

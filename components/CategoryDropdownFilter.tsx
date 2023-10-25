@@ -27,6 +27,7 @@ export default function CategoryDropdownFilter() {
       borderRadius: 8,
       paddingHorizontal: 15,
       paddingVertical: 10,
+      zIndex: 20,
     },
   };
 
