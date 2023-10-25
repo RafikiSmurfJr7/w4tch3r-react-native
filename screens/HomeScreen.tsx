@@ -4,23 +4,34 @@ import { HomeScreenProps } from "../types/Props";
 import { useContext } from "react";
 import { ThemeColor } from "../context/ThemeColor";
 import { getColorsFromContext } from "../utils/functions";
-import { Styles } from "../types/Styles";
+import { HomeScreenStyles } from "../types/Styles";
+import Filters from "../components/Filters";
 
 export default function HomeScreen({ navigation }: HomeScreenProps) {
   const colors = useContext(ThemeColor);
 
-  const styles: Styles = {
+  const styles: HomeScreenStyles = {
     container: {
       flex: 1,
       backgroundColor: colors.blue,
+    },
+    subContainerNavBar: {
+      //borderWidth: 2,
+      //borderColor: "white",
+    },
+    subContainerFilter: {
+      //borderWidth: 2,
+      //borderColor: "white",
     },
   };
 
   return (
     <View style={styles.container}>
-      <NavBar />
-      <View>
-        <Text style={{ color: "white" }}>Ola </Text>
+      <View style={styles.subContainerNavBar}>
+        <NavBar />
+      </View>
+      <View style={styles.subContainerFilter}>
+        <Filters />
       </View>
     </View>
   );

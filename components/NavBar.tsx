@@ -3,6 +3,7 @@ import React from "react";
 import { Icon } from "@rneui/base";
 import { ParamListBase, useNavigation } from "@react-navigation/native";
 import { DrawerNavigationProp } from "@react-navigation/drawer";
+import { NavBarStyles } from "../types/Styles";
 
 export default function NavBar() {
   const navigation: DrawerNavigationProp<ParamListBase> = useNavigation();
@@ -19,16 +20,16 @@ export default function NavBar() {
   );
 }
 
-const styles = StyleSheet.create({
+const styles: NavBarStyles = StyleSheet.create({
   container: {
-    flex: 1,
+    //flex: 1,
   },
   navBarContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignContent: "center",
-    paddingHorizontal: 20,
-    paddingVertical: 15,
+    marginHorizontal: 25,
+    marginVertical: 15,
   },
   logo: {
     width: 136,
