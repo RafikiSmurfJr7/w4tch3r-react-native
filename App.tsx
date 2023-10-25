@@ -1,21 +1,26 @@
 import "react-native-gesture-handler";
-import { NavigationContainer } from "@react-navigation/native";
-import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { SafeAreaView as SafeAreaViewIos } from "react-native";
+import { SafeAreaView as SafeAreaViewAndroid } from "react-native-safe-area-context";
 import Router from "./routes/Router";
+import { IThemeColor } from "./types/interfaces/IThemeColor";
+import { ThemeColor } from "./context/ThemeColor";
 
 export default function App() {
+  const colors: IThemeColor = {
+    blue: "#021F3A",
+    grey: "#E1E1E1",
+    greyDark: "#838383",
+    white: "#F7F7F7",
+    black: "#0E0E0E",
+  };
+
   return (
-    <SafeAreaView style={{ flex: 1 }}>
-      <Router />
-    </SafeAreaView>
+    <ThemeColor.Provider value={colors}>
+      <SafeAreaViewIos style={{ flex: 1 }}>
+        <SafeAreaViewAndroid style={{ flex: 1 }}>
+          <Router />
+        </SafeAreaViewAndroid>
+      </SafeAreaViewIos>
+    </ThemeColor.Provider>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-  },
-});
