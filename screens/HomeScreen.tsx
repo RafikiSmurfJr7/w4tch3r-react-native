@@ -1,19 +1,27 @@
 import { Button, StyleSheet, Text, View } from "react-native";
 import NavBar from "../components/NavBar";
+import { HomeScreenProps } from "../types/Props";
+import { useContext } from "react";
+import { ThemeColor } from "../context/ThemeColor";
+import { getColorsFromContext } from "../utils/functions";
+import { Styles } from "../types/Styles";
 
-export default function HomeScreen({ navigation }) {
+export default function HomeScreen({ navigation }: HomeScreenProps) {
+  const colors = useContext(ThemeColor);
+
+  const styles: Styles = {
+    container: {
+      flex: 1,
+      backgroundColor: colors.blue,
+    },
+  };
+
   return (
     <View style={styles.container}>
-      <NavBar navigation={navigation} />
+      <NavBar />
       <View>
-        <Text>Ola </Text>
+        <Text style={{ color: "white" }}>Ola </Text>
       </View>
     </View>
   );
 }
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#021F3A",
-  },
-});
