@@ -1,8 +1,12 @@
 import { View, Text, StyleSheet, Button, Image, Pressable } from "react-native";
 import React from "react";
 import { Icon } from "@rneui/base";
+import { ParamListBase, useNavigation } from "@react-navigation/native";
+import { DrawerNavigationProp } from "@react-navigation/drawer";
 
-export default function NavBar({ navigation }) {
+export default function NavBar() {
+  const navigation: DrawerNavigationProp<ParamListBase> = useNavigation();
+
   return (
     <View style={styles.container}>
       <View style={styles.navBarContainer}>
