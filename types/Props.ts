@@ -7,3 +7,10 @@ import {
 export interface HomeScreenProps {
   navigation: NavigationProp<ReactNavigation.RootParamList>;
 }
+
+export interface SeriesCardProps {
+  title: string;
+  img: string;
+  rating: number;
+  year: string;
+}
