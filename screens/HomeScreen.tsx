@@ -1,7 +1,7 @@
 import { Button, StyleSheet, Text, View } from "react-native";
 import NavBar from "../components/NavBar";
 import { HomeScreenProps } from "../types/Props";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { ThemeColor } from "../context/ThemeColor";
 import { getColorsFromContext } from "../utils/functions";
 import { HomeScreenStyles } from "../types/Styles";
@@ -16,15 +16,18 @@ export default function HomeScreen({ navigation }: HomeScreenProps) {
       flex: 1,
       backgroundColor: colors.blue,
     },
-    subContainerNavBar: {
-      //borderWidth: 2,
-      //borderColor: "white",
-    },
-    subContainerFilter: {
-      //borderWidth: 2,
-      //borderColor: "white",
+    subContainerNavBar: {},
+    subContainerFilter: {},
+    listContainer: {
+      flex: 1,
+      marginTop: 10,
     },
   };
+
+  const [serieName, setSerieName]: [
+    string,
+    React.Dispatch<React.SetStateAction<string>>
+  ] = useState("");
 
   return (
     <View style={styles.container}>
@@ -32,10 +35,10 @@ export default function HomeScreen({ navigation }: HomeScreenProps) {
         <NavBar />
       </View>
       <View style={styles.subContainerFilter}>
-        <Filters />
+        <Filters setSerieName={setSerieName} serieName={serieName} />
       </View>
-      <View>
-        <SerieList />
+      <View style={styles.listContainer}>
+        <SerieList serieName={serieName} />
       </View>
     </View>
   );

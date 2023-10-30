@@ -11,6 +11,20 @@ export interface HomeScreenProps {
 export interface SeriesCardProps {
   title: string;
   img: string;
-  rating: number;
+  rating: string;
   year: string;
+}
+
+export interface SerieNameFilterInputProps {
+  serieName: string;
+  setSerieName: React.Dispatch<React.SetStateAction<string>>;
+}
+
+export interface FiltersProps {
+  serieName: string;
+  setSerieName: React.Dispatch<React.SetStateAction<string>>;
+}
+
+export interface SerieListProps {
+  serieName: string;
 }

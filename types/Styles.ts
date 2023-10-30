@@ -1,9 +1,10 @@
-import { ImageStyle, ViewStyle } from "react-native";
+import { ImageStyle, TextStyle, View, ViewStyle } from "react-native";
 
 export type HomeScreenStyles = {
   container: ViewStyle;
   subContainerFilter: ViewStyle;
   subContainerNavBar: ViewStyle;
+  listContainer: ViewStyle;
 };
 
 export type NavBarStyles = {
@@ -17,7 +18,17 @@ export type CategoryDropdownFilterStyles = {
   container: ViewStyle;
 };
 
-export type MovieNameFilterInputStyles = {
+export type SerieNameFilterInputStyles = {
   input: ViewStyle;
   searchIcon: ViewStyle;
+};
+
+export type SeriesCardStyles = {
+  container: ViewStyle;
+  img: ImageStyle;
+  textContainer: ViewStyle;
+  titleContainer: TextStyle;
+  ratingContainer: ViewStyle;
+  title: TextStyle;
+  rating: TextStyle;
 };
