@@ -6,7 +6,8 @@ import { ThemeColor } from "../context/ThemeColor";
 import { getColorsFromContext } from "../utils/functions";
 import { HomeScreenStyles } from "../types/Styles";
 import Filters from "../components/Filters";
-import SerieList from "../components/SerieList";
+import SerieTopRatedList from "../components/SerieTopRatedList";
+import SerieSearchList from "../components/SerieSearchList";
 
 export default function HomeScreen({ navigation }: HomeScreenProps) {
   const colors = useContext(ThemeColor);
@@ -37,9 +38,16 @@ export default function HomeScreen({ navigation }: HomeScreenProps) {
       <View style={styles.subContainerFilter}>
         <Filters setSerieName={setSerieName} serieName={serieName} />
       </View>
-      <View style={styles.listContainer}>
-        <SerieList serieName={serieName} />
-      </View>
+
+      {serieName != "" ? (
+        <View style={styles.listContainer}>
+          <SerieSearchList serieName={serieName} />
+        </View>
+      ) : (
+        <View style={styles.listContainer}>
+          <SerieTopRatedList />
+        </View>
+      )}
     </View>
   );
 }

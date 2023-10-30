@@ -25,6 +25,6 @@ export interface FiltersProps {
   setSerieName: React.Dispatch<React.SetStateAction<string>>;
 }
 
-export interface SerieListProps {
+export interface SerieSearchListProps {
   serieName: string;
 }

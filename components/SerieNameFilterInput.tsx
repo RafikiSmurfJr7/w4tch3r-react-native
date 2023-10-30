@@ -12,6 +12,11 @@ export default function SerieNameFilterInput({
 }: SerieNameFilterInputProps) {
   const colors: IThemeColor = useContext(ThemeColor);
 
+  const [text, setText]: [
+    string,
+    React.Dispatch<React.SetStateAction<string>>
+  ] = useState("");
+
   const styles: SerieNameFilterInputStyles = {
     input: {
       width: 350,
@@ -33,8 +38,10 @@ export default function SerieNameFilterInput({
       <TextInput
         style={styles.input}
         placeholder="Serie name..."
-        onChangeText={setSerieName}
-        value={serieName}
+        onChangeText={setText}
+        value={text}
+        inputMode="search"
+        onSubmitEditing={() => setSerieName(text)}
       />
       <View style={styles.searchIcon}>
         <Icon
