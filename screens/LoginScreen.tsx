@@ -4,6 +4,7 @@ import LoginForm from "../components/LoginForm";
 import { backendApi } from "../config/axios.conf";
 import ErrorAlert from "../components/ErrorAlert";
 import { LoginScreenProps } from "../types/Props";
+import * as SecureStore from "expo-secure-store";
 
 //export default function LoginScreen({ setToken }: LoginScreenProps) {
 export default function LoginScreen() {
@@ -27,6 +28,13 @@ export default function LoginScreen() {
     React.Dispatch<React.SetStateAction<string>>
   ] = useState("");
 
+  const saveToken = async (token: string) => {
+    //console.log(token);
+    await SecureStore.setItemAsync("token", token);
+    let result = await SecureStore.getItemAsync("token");
+    //console.log(result);
+  };
+
   const submitLoginForm = () => {
     console.log(username, password);
 
@@ -38,6 +46,7 @@ export default function LoginScreen() {
       .then((res) => {
         console.log(res);
         setToken(res.data.token);
+        saveToken(token);
       })
       .catch((err) => {
         console.log(err);
