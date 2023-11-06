@@ -10,12 +10,9 @@ import { tmdbApi } from "../config/axios.conf";
 import SeriesCard from "./SeriesCard";
 import { SeriesData } from "../types/Requests";
 
-export default function SerieTopRatedList() {
-  // * Teve de se utilizar useRef pois o useState é async e causava problemas a renderizar as series :)
-  // ! Continua a não funcionar para ios (iphone)
-  //const [seriesData, setSeriesData]: SeriesData[] | any = useState([]);
-  //const seriesData: React.MutableRefObject<SeriesData[]> = useRef([]);
+// ! Em ios está a pular uma pagina ao fazer o paginate
 
+export default function SerieTopRatedList() {
   const [seriesData, setSeriesData]: SeriesData[] | any = useState([]);
 
   const [isLoading, setIsLoading]: [
@@ -40,7 +37,7 @@ export default function SerieTopRatedList() {
         setSeriesData([...seriesData, ...res.data.results]);
         requestPage.current += 1;
       })
-      .catch((err) => console.log());
+      .catch((err) => console.log(err));
 
     setIsLoading(false);
   };
@@ -54,6 +51,7 @@ export default function SerieTopRatedList() {
         numColumns={2}
         renderItem={({ item }) => (
           <SeriesCard
+            id={item.id}
             title={item.name}
             img={item.poster_path}
             rating={String(item.vote_average.toPrecision(2))}

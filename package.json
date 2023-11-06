@@ -9,6 +9,7 @@
     "web": "expo start --web"
   },
   "dependencies": {
+    "@bounceapp/iframe": "^0.2.1",
     "@react-navigation/drawer": "^6.6.5",
     "@react-navigation/native": "^6.1.9",
     "@rneui/base": "^4.0.0-rc.7",
@@ -23,7 +24,8 @@
     "react-native-gesture-handler": "~2.12.0",
     "react-native-reanimated": "~3.3.0",
     "react-native-safe-area-context": "4.6.3",
-    "react-native-screens": "~3.22.0"
+    "react-native-screens": "~3.22.0",
+    "react-native-webview": "13.2.2"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

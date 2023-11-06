@@ -9,6 +9,7 @@ export interface HomeScreenProps {
 }
 
 export interface SeriesCardProps {
+  id: number;
   title: string;
   img: string;
   rating: string;
@@ -27,4 +28,14 @@ export interface FiltersProps {
 
 export interface SerieSearchListProps {
   serieName: string;
+}
+
+export interface SerieSeasonEpisodeButtonProps {
+  children: string;
+  handleSerieButtonPressed: (children: string) => void;
+}
+
+export interface SerieEpisodeButtonProps {
+  children: string;
+  handleSerieEpisodeButtonPressed: (children: string) => void;
 }

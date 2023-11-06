@@ -1,17 +1,21 @@
-import { Image, StyleSheet, Text, View } from "react-native";
+import { Image, Pressable, StyleSheet, Text, View } from "react-native";
 import React, { useContext } from "react";
 import { SeriesCardProps } from "../types/Props";
 import { Icon } from "@rneui/base";
 import { SeriesCardStyles } from "../types/Styles";
 import { ThemeColor } from "../context/ThemeColor";
+import { useNavigation } from "@react-navigation/native";
 
 export default function SeriesCard({
+  id,
   title,
   img,
   rating,
   year,
 }: SeriesCardProps) {
   const colors = useContext(ThemeColor);
+
+  const navigation = useNavigation();
 
   const styles: SeriesCardStyles = {
     container: {
@@ -53,7 +57,10 @@ export default function SeriesCard({
   };
 
   return (
-    <View style={styles.container}>
+    <Pressable
+      style={styles.container}
+      onPress={() => navigation.navigate("Serie", { id: id })}
+    >
       <Image
         source={{ uri: `https://image.tmdb.org/t/p/w500${img}` }}
         style={styles.img}
@@ -70,6 +77,6 @@ export default function SeriesCard({
           </Text>
         </View>
       </View>
-    </View>
+    </Pressable>
   );
 }

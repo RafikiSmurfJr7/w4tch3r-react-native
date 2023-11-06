@@ -65,6 +65,7 @@ export default function SerieSearchList({ serieName }: SerieSearchListProps) {
           numColumns={2}
           renderItem={({ item }) => (
             <SeriesCard
+              id={item.id}
               title={item.name}
               img={item.poster_path}
               rating={String(item.vote_average.toPrecision(2))}
