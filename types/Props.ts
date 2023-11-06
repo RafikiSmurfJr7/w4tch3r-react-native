@@ -39,3 +39,19 @@ export interface SerieEpisodeButtonProps {
   children: string;
   handleSerieEpisodeButtonPressed: (children: string) => void;
 }
+
+export interface LoginFormProps {
+  username: string;
+  setUsername: React.Dispatch<React.SetStateAction<string>>;
+  password: string;
+  setPassword: React.Dispatch<React.SetStateAction<string>>;
+  submitLoginForm: () => void;
+}
+
+export interface ErrorAlertProps {
+  children: string;
+}
+
+export interface LoginScreenProps {
+  setToken: React.Dispatch<React.SetStateAction<string>>;
+}
