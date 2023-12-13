@@ -1,12 +1,10 @@
 import { View, Text, StyleSheet, Button, Image, Pressable } from "react-native";
 import React from "react";
 import { Icon } from "@rneui/base";
-import { ParamListBase, useNavigation } from "@react-navigation/native";
-import { DrawerNavigationProp } from "@react-navigation/drawer";
-import { NavBarStyles } from "../types/Styles";
+import { useNavigation } from "@react-navigation/native";
 
 export default function NavBar() {
-  const navigation: DrawerNavigationProp<ParamListBase> = useNavigation();
+  const navigation = useNavigation();
 
   return (
     <View style={styles.container}>
@@ -20,7 +18,7 @@ export default function NavBar() {
   );
 }
 
-const styles: NavBarStyles = StyleSheet.create({
+const styles = StyleSheet.create({
   container: {
     //flex: 1,
   },

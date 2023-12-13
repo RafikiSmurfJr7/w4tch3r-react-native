@@ -1,20 +1,14 @@
 import { View, Text, Pressable, StyleSheet } from "react-native";
 import React, { useContext, useState } from "react";
 import { Icon } from "@rneui/base";
-import { IThemeColor } from "../types/interfaces/IThemeColor";
 import { ThemeColor } from "../context/ThemeColor";
-import { CategoryDropdownFilterStyles } from "../types/Styles";
-import { TouchableHighlight } from "react-native-gesture-handler";
 
 export default function CategoryDropdownFilter() {
-  const [isDropdownOpen, updateIsDropdownOpen]: [
-    boolean,
-    React.Dispatch<React.SetStateAction<boolean>>
-  ] = useState(false);
+  const [isDropdownOpen, updateIsDropdownOpen] = useState(false);
 
-  const colors: IThemeColor = useContext(ThemeColor);
+  const colors = useContext(ThemeColor);
 
-  const styles: CategoryDropdownFilterStyles = {
+  const styles = {
     container: {
       marginStart: 20,
     },
@@ -33,7 +27,7 @@ export default function CategoryDropdownFilter() {
 
   return (
     <View style={styles.container}>
-      <Pressable onPress={() => updateIsDropdownOpen((prev: boolean) => !prev)}>
+      <Pressable onPress={() => updateIsDropdownOpen((prev) => !prev)}>
         {isDropdownOpen ? (
           <Icon
             reverse

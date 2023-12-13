@@ -8,27 +8,15 @@ import * as SecureStore from "expo-secure-store";
 
 //export default function LoginScreen({ setToken }: LoginScreenProps) {
 export default function LoginScreen() {
-  const [username, setUsername]: [
-    string,
-    React.Dispatch<React.SetStateAction<string>>
-  ] = useState("");
+  const [username, setUsername]= useState("");
 
-  const [password, setPassword]: [
-    string,
-    React.Dispatch<React.SetStateAction<string>>
-  ] = useState("");
+  const [password, setPassword]= useState("");
 
-  const [error, setError]: [
-    string,
-    React.Dispatch<React.SetStateAction<string>>
-  ] = useState("");
+  const [error, setError]= useState("");
 
-  const [token, setToken]: [
-    string,
-    React.Dispatch<React.SetStateAction<string>>
-  ] = useState("");
+  const [token, setToken] = useState("");
 
-  const saveToken = async (token: string) => {
+  const saveToken = async (token) => {
     //console.log(token);
     await SecureStore.setItemAsync("token", token);
     let result = await SecureStore.getItemAsync("token");

@@ -11,7 +11,6 @@ import { useRoute } from "@react-navigation/native";
 import NavBar from "../components/NavBar";
 import { tmdbApi } from "../config/axios.conf";
 import SerieSeasonEpisodeButton from "../components/SerieSeasonEpisodeButton";
-import WebView from "react-native-webview";
 import { ScrollView } from "react-native-gesture-handler";
 import { Iframe } from "@bounceapp/iframe";
 import SerieEpisodeButton from "../components/SerieEpisodeButton";
@@ -20,25 +19,13 @@ export default function SerieScreen() {
   const route = useRoute();
 
   const [serieData, setSerieData] = useState();
-  const [season, setSeason]: [
-    number,
-    React.Dispatch<React.SetStateAction<number>>
-  ] = useState(1);
+  const [season, setSeason] = useState(1);
 
-  const [showEpisodes, setShowEpisodes]: [
-    boolean,
-    React.Dispatch<React.SetStateAction<boolean>>
-  ] = useState(false);
+  const [showEpisodes, setShowEpisodes] = useState(false);
 
-  const [episodesArray, setEpisodesArray]: [
-    number[],
-    React.Dispatch<React.SetStateAction<number[]>>
-  ] = useState([0]);
+  const [episodesArray, setEpisodesArray]= useState([0]);
 
-  const [episode, setEpisode]: [
-    number,
-    React.Dispatch<React.SetStateAction<number>>
-  ] = useState(1);
+  const [episode, setEpisode]= useState(1);
 
   useEffect(() => {
     setShowEpisodes(false);
@@ -50,7 +37,7 @@ export default function SerieScreen() {
       .catch((err) => {});
   }, [route.params.id]);
 
-  const handleSerieButtonPressed = (seasonNumber: string) => {
+  const handleSerieButtonPressed = (seasonNumber) => {
     setShowEpisodes(false);
     setSeason(parseInt(seasonNumber));
     //setShowEpisodes((prev) => !prev);
@@ -73,7 +60,7 @@ export default function SerieScreen() {
     setShowEpisodes(true);
   };
 
-  const handleSerieEpisodeButtonPressed = (episodeNumber: string) => {
+  const handleSerieEpisodeButtonPressed = (episodeNumber) => {
     setEpisode(parseInt(episodeNumber));
   };
 

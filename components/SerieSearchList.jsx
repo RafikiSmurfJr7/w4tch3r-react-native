@@ -11,21 +11,18 @@ import { SerieSearchListProps } from "../types/Props";
 import { SeriesData } from "../types/Requests";
 import SeriesCard from "./SeriesCard";
 
-export default function SerieSearchList({ serieName }: SerieSearchListProps) {
-  const requestPage: React.MutableRefObject<number> = useRef(1);
+export default function SerieSearchList({ serieName }) {
+  const requestPage = useRef(1);
 
   // ! depois corrigir alguns pequenos bugs
 
-  const [seriesData, setSeriesData]: SeriesData[] | any = useState([]);
+  const [seriesData, setSeriesData] = useState([]);
 
   const [totalPages, setTotalPages] = useState(0);
 
   const renew = useRef(true);
 
-  const [isLoading, setIsLoading]: [
-    boolean,
-    React.Dispatch<React.SetStateAction<boolean>>
-  ] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     requestPage.current = 1;
@@ -34,7 +31,7 @@ export default function SerieSearchList({ serieName }: SerieSearchListProps) {
     //  seriesData.current = [];
   }, [serieName]);
 
-  const requestData = async (): Promise<void> => {
+  const requestData = async () => {
     setIsLoading(true);
     if (renew.current == true) {
       renew.current = false;

@@ -1,9 +1,8 @@
 import { StyleSheet, Text, View } from "react-native";
 import React from "react";
 import { Icon } from "@rneui/base";
-import { ErrorAlertProps } from "../types/Props";
 
-export default function ErrorAlert({ children }: ErrorAlertProps) {
+export default function ErrorAlert({ children }) {
   return (
     <View style={styles.container}>
       <Text style={styles.errorMessage}>{children}</Text>

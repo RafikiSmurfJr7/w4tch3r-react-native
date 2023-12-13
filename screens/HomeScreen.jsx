@@ -9,10 +9,10 @@ import Filters from "../components/Filters";
 import SerieTopRatedList from "../components/SerieTopRatedList";
 import SerieSearchList from "../components/SerieSearchList";
 
-export default function HomeScreen({ navigation }: HomeScreenProps) {
+export default function HomeScreen({ navigation }) {
   const colors = useContext(ThemeColor);
 
-  const styles: HomeScreenStyles = {
+  const styles = {
     container: {
       flex: 1,
       backgroundColor: colors.blue,
@@ -25,10 +25,7 @@ export default function HomeScreen({ navigation }: HomeScreenProps) {
     },
   };
 
-  const [serieName, setSerieName]: [
-    string,
-    React.Dispatch<React.SetStateAction<string>>
-  ] = useState("");
+  const [serieName, setSerieName] = useState("");
 
   return (
     <View style={styles.container}>

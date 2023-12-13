@@ -10,17 +10,12 @@ import { tmdbApi } from "../config/axios.conf";
 import SeriesCard from "./SeriesCard";
 import { SeriesData } from "../types/Requests";
 
-// ! Em ios está a pular uma pagina ao fazer o paginate
-
 export default function SerieTopRatedList() {
-  const [seriesData, setSeriesData]: SeriesData[] | any = useState([]);
+  const [seriesData, setSeriesData] = useState([]);
 
-  const [isLoading, setIsLoading]: [
-    boolean,
-    React.Dispatch<React.SetStateAction<boolean>>
-  ] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
-  const requestPage: React.MutableRefObject<number> = useRef(1);
+  const requestPage = useRef(1);
 
   useEffect(() => {
     requestData();

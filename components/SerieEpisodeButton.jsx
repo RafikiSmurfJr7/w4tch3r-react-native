@@ -1,15 +1,14 @@
 import { Pressable, StyleSheet, Text, View } from "react-native";
 import React from "react";
-import { SerieSeasonEpisodeButtonProps } from "../types/Props";
 
-export default function SerieSeasonEpisodeButton({
+export default function SerieEpisodeButton({
   children,
-  handleSerieButtonPressed,
-}: SerieSeasonEpisodeButtonProps) {
+  handleSerieEpisodeButtonPressed,
+}) {
   return (
     <Pressable
       style={styles.container}
-      onPress={() => handleSerieButtonPressed(children)}
+      onPress={() => handleSerieEpisodeButtonPressed(children)}
     >
       <Text style={styles.buttonText}>{children}</Text>
     </Pressable>
@@ -19,9 +18,9 @@ export default function SerieSeasonEpisodeButton({
 const styles = StyleSheet.create({
   container: {
     backgroundColor: "white",
-    width: 35,
-    height: 35,
-    borderRadius: 100,
+    width: 30,
+    height: 25,
+    borderRadius: 10,
     justifyContent: "center",
     alignItems: "center",
     marginHorizontal: 5,

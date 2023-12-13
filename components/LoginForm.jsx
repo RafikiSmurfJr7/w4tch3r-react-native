@@ -9,7 +9,7 @@ export default function LoginForm({
   password,
   setPassword,
   submitLoginForm,
-}: LoginFormProps) {
+}) {
   return (
     <View>
       <TextInput

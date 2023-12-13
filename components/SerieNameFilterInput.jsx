@@ -9,15 +9,12 @@ import { SerieNameFilterInputProps } from "../types/Props";
 export default function SerieNameFilterInput({
   setSerieName,
   serieName,
-}: SerieNameFilterInputProps) {
-  const colors: IThemeColor = useContext(ThemeColor);
+}) {
+  const colors = useContext(ThemeColor);
 
-  const [text, setText]: [
-    string,
-    React.Dispatch<React.SetStateAction<string>>
-  ] = useState("");
+  const [text, setText] = useState("");
 
-  const styles: SerieNameFilterInputStyles = {
+  const styles = {
     input: {
       width: 350,
       height: 35,

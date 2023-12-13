@@ -12,12 +12,12 @@ export default function SeriesCard({
   img,
   rating,
   year,
-}: SeriesCardProps) {
+}) {
   const colors = useContext(ThemeColor);
 
   const navigation = useNavigation();
 
-  const styles: SeriesCardStyles = {
+  const styles = {
     container: {
       backgroundColor: colors.white,
       margin: 10,
