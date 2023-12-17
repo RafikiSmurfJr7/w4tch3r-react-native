@@ -1,7 +1,6 @@
 import { Pressable, StyleSheet, Text, TextInput, View } from "react-native";
 import React from "react";
 import { Icon } from "@rneui/base";
-import { LoginFormProps } from "../types/Props";
 
 export default function LoginForm({
   username,

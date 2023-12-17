@@ -7,8 +7,6 @@ import {
 } from "react-native";
 import React, { useEffect, useRef, useState } from "react";
 import { tmdbApi } from "../config/axios.conf";
-import { SerieSearchListProps } from "../types/Props";
-import { SeriesData } from "../types/Requests";
 import SeriesCard from "./SeriesCard";
 
 export default function SerieSearchList({ serieName }) {

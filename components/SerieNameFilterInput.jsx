@@ -1,10 +1,8 @@
 import { View, Text, StyleSheet, TextInput } from "react-native";
 import React, { useContext, useState } from "react";
 import { Icon, Input, color } from "@rneui/base";
-import { IThemeColor } from "../types/interfaces/IThemeColor";
 import { ThemeColor } from "../context/ThemeColor";
-import { SerieNameFilterInputStyles } from "../types/Styles";
-import { SerieNameFilterInputProps } from "../types/Props";
+
 
 export default function SerieNameFilterInput({
   setSerieName,

@@ -1,8 +1,6 @@
 import { Image, Pressable, StyleSheet, Text, View } from "react-native";
 import React, { useContext } from "react";
-import { SeriesCardProps } from "../types/Props";
 import { Icon } from "@rneui/base";
-import { SeriesCardStyles } from "../types/Styles";
 import { ThemeColor } from "../context/ThemeColor";
 import { useNavigation } from "@react-navigation/native";
 

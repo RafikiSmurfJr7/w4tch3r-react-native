@@ -8,7 +8,7 @@ import {
 import React, { useEffect, useRef, useState } from "react";
 import { tmdbApi } from "../config/axios.conf";
 import SeriesCard from "./SeriesCard";
-import { SeriesData } from "../types/Requests";
+
 
 export default function SerieTopRatedList() {
   const [seriesData, setSeriesData] = useState([]);

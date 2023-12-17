@@ -1,10 +1,7 @@
 import { Button, StyleSheet, Text, View } from "react-native";
 import NavBar from "../components/NavBar";
-import { HomeScreenProps } from "../types/Props";
 import { useContext, useState } from "react";
 import { ThemeColor } from "../context/ThemeColor";
-import { getColorsFromContext } from "../utils/functions";
-import { HomeScreenStyles } from "../types/Styles";
 import Filters from "../components/Filters";
 import SerieTopRatedList from "../components/SerieTopRatedList";
 import SerieSearchList from "../components/SerieSearchList";

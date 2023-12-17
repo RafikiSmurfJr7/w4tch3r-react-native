@@ -3,7 +3,6 @@ import React, { useState } from "react";
 import LoginForm from "../components/LoginForm";
 import { backendApi } from "../config/axios.conf";
 import ErrorAlert from "../components/ErrorAlert";
-import { LoginScreenProps } from "../types/Props";
 import * as SecureStore from "expo-secure-store";
 
 //export default function LoginScreen({ setToken }: LoginScreenProps) {
