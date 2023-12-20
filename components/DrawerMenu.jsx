@@ -8,6 +8,9 @@ export default function DrawerMenu({ navigation }) {
       <DrawerLinkItems navigation={navigation} navigatePage="Home" icon="home">
         Home
       </DrawerLinkItems>
+      <DrawerLinkItems navigation={navigation} navigatePage="Filme" icon="film">
+       Filmes 
+      </DrawerLinkItems>
       <DrawerLinkItems
         navigation={navigation}
         navigatePage="Login"

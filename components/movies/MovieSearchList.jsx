@@ -1,0 +1,85 @@
+import {
+    ActivityIndicator,
+    FlatList,
+    StyleSheet,
+    Text,
+    View,
+  } from "react-native";
+  import React, { useEffect, useRef, useState } from "react";
+  import { tmdbApi } from "../../config/axios.conf";
+  import MoviesCard from "./MoviesCard";
+  
+  export default function MovieSearchList({ movieName }) {
+    const requestPage = useRef(1);
+  
+    // ! depois corrigir alguns pequenos bugs
+  
+    const [moviesData, setMoviesData] = useState([]);
+  
+    const [totalPages, setTotalPages] = useState(0);
+  
+    const renew = useRef(true);
+  
+    const [isLoading, setIsLoading] = useState(false);
+  
+    useEffect(() => {
+      requestPage.current = 1;
+      renew.current = true;
+      requestData();
+      //  seriesData.current = [];
+    }, [movieName]);
+  
+    const requestData = async () => {
+      setIsLoading(true);
+      if (renew.current == true) {
+        renew.current = false;
+        await setMoviesData([]);
+      }
+      try {
+        const result = await tmdbApi.get(
+          `/search/movie?query=${movieName}&page=${requestPage.current}`
+        );
+        setMoviessData([...moviesData, ...result.data.results]);
+        setTotalPages(result.data.total_pages);
+      } catch (error) {
+        console.log(error);
+      }
+  
+      requestPage.current += 1;
+  
+      setIsLoading(false);
+    };
+  
+    return (
+      <View>
+        {moviesData ? (
+          <FlatList
+            columnWrapperStyle={{ justifyContent: "space-evenly" }}
+            data={moviesData}
+            horizontal={false}
+            numColumns={2}
+            renderItem={({ item }) => (
+              <MoviesCard
+                id={item.id}
+                title={item.name}
+                img={item.poster_path}
+                rating={String(item.vote_average.toPrecision(2))}
+                year={item.date}
+              />
+            )}
+            keyExtractor={(item) => String(item.id)}
+            onEndReached={totalPages > 1 ? requestData : null}
+            onEndReachedThreshold={0.1}
+            ListFooterComponent={
+              isLoading ? (
+                <ActivityIndicator size={"large"} color="#FFFFFF" />
+              ) : null
+            }
+          />
+        ) : null}
+      </View>
+    );
+  }
+  
+  const styles = StyleSheet.create({});
+  
