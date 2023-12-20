@@ -13,19 +13,17 @@ import {
   import { ScrollView } from "react-native-gesture-handler";
   import { Iframe } from "@bounceapp/iframe";
   
-  export default function FilmeDetailScreen() {
+  export default function PeopleDetailScreen() {
     const route = useRoute();
   
-    const [movieData, setMovieData] = useState();  
-    // const [showmovie, setShowMovie] = useState(false);
+    const [peopleData, setPeopleData] = useState();  
 
   
     useEffect(() => {
-      //  setShowMovie(false);
       tmdbApi
-        .get(`/movie/${route.params.id}`)
+        .get(`/person/${route.params.id}`)
         .then((res) => {
-          setMovieData(res.data);
+          setPeopleData(res.data);
         })
         .catch((err) => {});
     }, [route.params.id]);
@@ -33,15 +31,15 @@ import {
   
     return (
       <View style={styles.container}>
-        {movieData ? (
+        {peopleData ? (
           <>
-            <ImageBackground
+            {/* <ImageBackground
               source={{
-                uri: `https://image.tmdb.org/t/p/w500${movieData.backdrop_path}`,
+                uri: `https://image.tmdb.org/t/p/w500${peopleData.profile_path}`,
               }}
               resizeMode="cover"
               style={styles.image}
-            >
+            >  */}
               <ImageBackground
                 source={require("../assets/angryimg.png")}
                 resizeMode="cover"
@@ -51,77 +49,42 @@ import {
                 <View style={styles.movieInfoContainer}>
                   <Image
                     source={{
-                      uri: `https://image.tmdb.org/t/p/w500${movieData.poster_path}`,
+                      uri: `https://image.tmdb.org/t/p/w500${peopleData.profile_path}`,
                     }}
                     style={styles.poster}
                   />
                   <View style={{ alignSelf: "center", width: 150 }}>
-                    <Text style={styles.movieInfoText}>{movieData.title}</Text>
+                    <Text style={styles.movieInfoText}>{peopleData.name}</Text>
                     <Text style={styles.movieInfoText}>
-                      ({movieData.release_date.slice(0, 4)})
+                      Birthday: {peopleData.birthday} {peopleData.place_of_birth}
                     </Text>
                     <Text style={styles.movieInfoText}>
-                      Rating: {movieData.vote_average.toPrecision(2) * 10}%
+                      Deathday: ({peopleData.deathday})
                     </Text>
-                    {/* <Text style={styles.movieInfoText}>
-                        Actores:{" "}
-                        {movieData.people.map((item,i) =>
-                        i < movieData.people.length -1 
-                            ? `  ${item.name} ,`
-                            : `  ${item.name} ,`    
-                        )}{" "}
-                    </Text> */}
                     <Text style={styles.movieInfoText}>
-                      Genre:{" "}
-                      {movieData.genres.map((item, i) =>
-                        i < movieData.genres.length - 1
-                          ? `  ${item.name} ,`
-                          : `  ${item.name} `
-                      )}{" "}
+                      Popularity: {peopleData.popularity}
                     </Text>
-                    {/*<Text style={styles.movieInfoText}>
-                      Created by:{" "}
-                      {movieData.created_by.map((item, i) =>
-                        i < movieData.created_by.length - 1
-                          ? `  ${item.name} ,`
-                          : `  ${item.name} `
-                      )}{" "}
-                    </Text> */}
+                  </View>
+                  <Text></Text>
+                  <View style={styles.moviePlayerTitleContainer}>
+                  <Text style={styles.movieWatchTitle}>Biography</Text>
+                    
+                  <Text style={styles.movieInfoText}>
+                {peopleData.biography}
+                </Text>
                   </View>
                 </View>
                 <View style={styles.movieDescriptionContainer}>
-                  <Text style={styles.movieInfoText}>{movieData.overview}</Text>
+                  <Text style={styles.movieInfoText}>{peopleData.overview}</Text>
                 </View>
               </ImageBackground>
-            </ImageBackground>
+              {/* </ImageBackground> */}
             <ScrollView style={styles.moviePlayerContainer}>
               <View style={styles.moviePlayerTitleContainer}>
-                <Text style={styles.movieWatchTitle}>Watch</Text>
+                
               </View>
               <View>
-                    {/* 
-                {showmovie ? (
-                  <>
-                    <Text style={styles.seriePlayerEpisodesTitle}>Episodes</Text>
-                    <View style={styles.seriePlayerEpisodesButtonsContainer}>
-                      {episodesArray.map((item, i) => (
-                        <SerieEpisodeButton
-                          handleSerieEpisodeButtonPressed={
-                            handleSerieEpisodeButtonPressed
-                          }
-                          key={i}
-                        >
-                          {String(item)}
-                        </SerieEpisodeButton>
-                      ))}
-                    </View>
-                </> 
-                ) : null}
-                  */}
-                <Iframe
-                  style={styles.containerWebView}
-                  uri={`https://vidsrc.me/embed/movie?tmdb=${movieData.id}&color=15006D`}
-                />
+                    
               </View>
             </ScrollView>
           </>

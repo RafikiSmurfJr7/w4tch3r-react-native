@@ -7,14 +7,14 @@ import {
   } from "react-native";
   import React, { useEffect, useRef, useState } from "react";
   import { tmdbApi } from "../../config/axios.conf";
-  import MoviesCard from "./MoviesCard";
+  import PeopleCard from "./PeopleCard";
   
-  export default function MovieSearchList({ movieName }) {
+  export default function PeopleSearchList({ peopleName }) {
     const requestPage = useRef(1);
   
     // ! depois corrigir alguns pequenos bugs
   
-    const [moviesData, setMoviesData] = useState([]);
+    const [peopleData, setPeopleData] = useState([]);
   
     const [totalPages, setTotalPages] = useState(0);
   
@@ -26,20 +26,19 @@ import {
       requestPage.current = 1;
       renew.current = true;
       requestData();
-      //  seriesData.current = [];
-    }, [movieName]);
+    }, [peopleName]);
   
     const requestData = async () => {
       setIsLoading(true);
       if (renew.current == true) {
         renew.current = false;
-        await setMoviesData([]);
+        await setPeopleData([]);
       }
       try {
         const result = await tmdbApi.get(
-          `/search/movie?query=${movieName}&page=${requestPage.current}`
+          `/search/person?query=${peopleName}&page=${requestPage.current}`
         );
-        setMoviesData([...moviesData, ...result.data.results]);
+        setPeopleData([...peopleData, ...result.data.results]);
         setTotalPages(result.data.total_pages);
       } catch (error) {
         console.log(error);
@@ -52,19 +51,18 @@ import {
   
     return (
       <View>
-        {moviesData ? (
+        {peopleData ? (
           <FlatList
             columnWrapperStyle={{ justifyContent: "space-evenly" }}
-            data={moviesData}
+            data={peopleData}
             horizontal={false}
             numColumns={2}
             renderItem={({ item }) => (
-              <MoviesCard
+              <PeopleCard
                 id={item.id}
                 title={item.name}
-                img={item.poster_path}
-                rating={String(item.vote_average.toPrecision(2))}
-                year={item.release_date.slice(0, 4)}
+                img={item.profile_path}
+                job={String(item.known_for_department)}
               />
             )}
             keyExtractor={(item) => String(item.id)}

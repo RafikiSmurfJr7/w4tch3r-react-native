@@ -3,10 +3,10 @@ import NavBar from "../components/NavBar";
 import { useContext, useState } from "react";
 import { ThemeColor } from "../context/ThemeColor";
 import Filters from "../components/Filters";
-import MoviesTopRatedList from "../components/movies/MovieTopRatedList";
-import MovieSearchList from "../components/movies/MovieSearchList";
+import PeoplePopularList from "../components/people/PeoplePopularList";
+import PeopleSearchList from "../components/people/PeopleSearchList";
 
-export default function FilmeScreen({ navigation }) {
+export default function PeopleScreen({ navigation }) {
   const colors = useContext(ThemeColor);
   const styles = {
     container: {
@@ -20,7 +20,7 @@ export default function FilmeScreen({ navigation }) {
       marginTop: 10,
     },
   };
-  const [movieName, setMovieName] = useState("");
+  const [peopleName, setPeopleName] = useState("");
 
   return (
     <View style={styles.container}>
@@ -28,16 +28,16 @@ export default function FilmeScreen({ navigation }) {
         <NavBar />
       </View>
       <View style={styles.subContainerFilter}>
-        <Filters setMovieName={setMovieName} movieName={movieName} />
+        <Filters setPeopleName={setPeopleName} peopleName={peopleName} />
       </View>
 
-      {movieName != "" ? (
+      {peopleName != "" ? (
         <View style={styles.listContainer}>
-          <MovieSearchList movieName={movieName} />
+          <PeopleSearchList peopleName={peopleName} />
         </View>
       ) : (
         <View style={styles.listContainer}>
-          <MoviesTopRatedList />
+          <PeoplePopularList/>
         </View>
       )}
     </View>
