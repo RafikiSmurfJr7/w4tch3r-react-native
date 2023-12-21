@@ -6,9 +6,8 @@ import { useNavigation } from "@react-navigation/native";
 
 export default function PeopleCard({
   id,
-  title,
+  name,
   img,
-  rating,
   job,
 }) {
   const colors = useContext(ThemeColor);
@@ -65,7 +64,7 @@ export default function PeopleCard({
       />
       <View style={styles.textContainer}>
         <View style={styles.titleContainer}>
-          <Text style={styles.title}>{title}</Text>
+          <Text style={styles.title}>{name}</Text>
           <Text>({job})</Text>
         </View>
       </View>

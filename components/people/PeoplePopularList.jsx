@@ -27,8 +27,6 @@ import {
       await tmdbApi
         .get(`/person/popular?page=${requestPage.current}`)
         .then((res) => {
-          //console.log(res);
-          //seriesData.current = [...seriesData.current, ...res.data.results];
           setPeopleData([...peopleData, ...res.data.results]);
           requestPage.current += 1;
         })
@@ -47,7 +45,7 @@ import {
           renderItem={({ item }) => (
             <PeopleCard
               id={item.id}
-              title={item.name}
+              name={item.name}
               img={item.profile_path}
               job={String(item.known_for_department)}
             />

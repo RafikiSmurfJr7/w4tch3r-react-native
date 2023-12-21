@@ -60,7 +60,7 @@ import {
             renderItem={({ item }) => (
               <PeopleCard
                 id={item.id}
-                title={item.name}
+                name={item.name}
                 img={item.profile_path}
                 job={String(item.known_for_department)}
               />
