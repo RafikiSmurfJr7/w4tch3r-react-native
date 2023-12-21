@@ -4,6 +4,7 @@ import { SafeAreaView as SafeAreaViewAndroid } from "react-native-safe-area-cont
 import Router from "./routes/Router";
 import { ThemeColor } from "./context/ThemeColor";
 
+
 export default function App() {
   const colors = {
     blue: "#021F3A",
