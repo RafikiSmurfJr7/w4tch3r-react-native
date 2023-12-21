@@ -8,6 +8,7 @@ import FilmeScreen from '../screens/FilmeScreen';
 import FilmeDetailScreen from "../screens/FilmeDetailScreen";
 import PeopleScreen from "../screens/PeopleScreen";
 import PeopleDetailScreen from "../screens/PeopleDetailScreen";
+import FavoriteFilmScreen from "../screens/FavoriteFilmScreen";
 import DrawerMenu from "../components/DrawerMenu";
 import * as SecureStore from "expo-secure-store";
 
@@ -39,6 +40,7 @@ export default function DrawerRoute() {
       <Drawer.Screen name='FilmeDetail' component={FilmeDetailScreen}/>
       <Drawer.Screen name='People' component={PeopleScreen}/>
       <Drawer.Screen name='PeopleDetail' component={PeopleDetailScreen}/>
+      <Drawer.Screen name='FavoriteFilm' component={FavoriteFilmScreen}/>
     </Drawer.Navigator>
   );
 }
