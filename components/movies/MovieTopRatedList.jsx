@@ -27,8 +27,6 @@ import {
       await tmdbApi
         .get(`/movie/top_rated?page=${requestPage.current}`)
         .then((res) => {
-          //console.log(res);
-          //seriesData.current = [...seriesData.current, ...res.data.results];
           setMoviesData([...moviesData, ...res.data.results]);
           requestPage.current += 1;
         })

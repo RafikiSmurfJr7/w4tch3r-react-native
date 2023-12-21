@@ -5,205 +5,159 @@ import {
     StyleSheet,
     Text,
     View,
-  } from "react-native";
-  import React, { useEffect, useState } from "react";
-  import { useRoute } from "@react-navigation/native";
-  import NavBar from "../components/NavBar";
-  import { tmdbApi } from "../config/axios.conf";
-  import { ScrollView } from "react-native-gesture-handler";
-  import { Iframe } from "@bounceapp/iframe";
-  
-  export default function FilmeDetailScreen() {
-    const route = useRoute();
-  
-    const [movieData, setMovieData] = useState();  
-    // const [showmovie, setShowMovie] = useState(false);
+} from "react-native";
+import React, { useEffect, useState } from "react";
+import { useRoute } from "@react-navigation/native";
+import NavBar from "../components/NavBar";
+import { tmdbApi } from "../config/axios.conf";
+import { ScrollView } from "react-native-gesture-handler";
+import { Iframe } from "@bounceapp/iframe";
 
-  
+export default function FilmeDetailScreen() {
+    const route = useRoute();
+    const [movieData, setMovieData] = useState();
+
     useEffect(() => {
-      //  setShowMovie(false);
-      tmdbApi
-        .get(`/movie/${route.params.id}`)
-        .then((res) => {
-          setMovieData(res.data);
-        })
-        .catch((err) => {});
+        tmdbApi
+            .get(`/movie/${route.params.id}`)
+            .then((res) => {
+                setMovieData(res.data);
+            })
+            .catch((err) => {});
     }, [route.params.id]);
-  
-  
+
     return (
-      <View style={styles.container}>
-        {movieData ? (
-          <>
-            <ImageBackground
-              source={{
-                uri: `https://image.tmdb.org/t/p/w500${movieData.backdrop_path}`,
-              }}
-              resizeMode="cover"
-              style={styles.image}
-            >
-              <ImageBackground
-                source={require("../assets/angryimg.png")}
-                resizeMode="cover"
-                style={styles.imageTransparent}
-              >
-                <NavBar />
-                <View style={styles.movieInfoContainer}>
-                  <Image
-                    source={{
-                      uri: `https://image.tmdb.org/t/p/w500${movieData.poster_path}`,
-                    }}
-                    style={styles.poster}
-                  />
-                  <View style={{ alignSelf: "center", width: 150 }}>
-                    <Text style={styles.movieInfoText}>{movieData.title}</Text>
-                    <Text style={styles.movieInfoText}>
-                      ({movieData.release_date.slice(0, 4)})
-                    </Text>
-                    <Text style={styles.movieInfoText}>
-                      Rating: {movieData.vote_average.toPrecision(2) * 10}%
-                    </Text>
-                    {/* <Text style={styles.movieInfoText}>
-                        Actores:{" "}
-                        {movieData.people.map((item,i) =>
-                        i < movieData.people.length -1 
-                            ? `  ${item.name} ,`
-                            : `  ${item.name} ,`    
-                        )}{" "}
-                    </Text> */}
-                    <Text style={styles.movieInfoText}>
-                      Genre:{" "}
-                      {movieData.genres.map((item, i) =>
-                        i < movieData.genres.length - 1
-                          ? `  ${item.name} ,`
-                          : `  ${item.name} `
-                      )}{" "}
-                    </Text>
-                    {/*<Text style={styles.movieInfoText}>
-                      Created by:{" "}
-                      {movieData.created_by.map((item, i) =>
-                        i < movieData.created_by.length - 1
-                          ? `  ${item.name} ,`
-                          : `  ${item.name} `
-                      )}{" "}
-                    </Text> */}
-                  </View>
-                </View>
-                <View style={styles.movieDescriptionContainer}>
-                  <Text style={styles.movieInfoText}>{movieData.overview}</Text>
-                </View>
-              </ImageBackground>
-            </ImageBackground>
-            <ScrollView style={styles.moviePlayerContainer}>
-              <View style={styles.moviePlayerTitleContainer}>
-                <Text style={styles.movieWatchTitle}>Watch</Text>
-              </View>
-              <View>
-                    {/* 
-                {showmovie ? (
-                  <>
-                    <Text style={styles.seriePlayerEpisodesTitle}>Episodes</Text>
-                    <View style={styles.seriePlayerEpisodesButtonsContainer}>
-                      {episodesArray.map((item, i) => (
-                        <SerieEpisodeButton
-                          handleSerieEpisodeButtonPressed={
-                            handleSerieEpisodeButtonPressed
-                          }
-                          key={i}
+        <View style={styles.container}>
+            {movieData ? (
+                <>
+                    <ImageBackground
+                        source={{
+                            uri: `https://image.tmdb.org/t/p/w500${movieData.backdrop_path}`,
+                        }}
+                        resizeMode="cover"
+                        style={styles.image}
+                    >
+                        <ImageBackground
+                            source={require("../assets/angryimg.png")}
+                            resizeMode="cover"
+                            style={styles.imageTransparent}
                         >
-                          {String(item)}
-                        </SerieEpisodeButton>
-                      ))}
-                    </View>
-                </> 
-                ) : null}
-                  */}
-                <Iframe
-                  style={styles.containerWebView}
-                  uri={`https://vidsrc.me/embed/movie?tmdb=${movieData.id}&color=15006D`}
-                />
-              </View>
-            </ScrollView>
-          </>
-        ) : (
-          <View style={{ flex: 1, backgroundColor: "#021F3A" }}>
-            <ActivityIndicator size="large" color="#FFFFFF" />
-          </View>
-        )}
-      </View>
+                            <NavBar />
+                            <View style={styles.movieInfoContainer}>
+                                <Image
+                                    source={{
+                                        uri: `https://image.tmdb.org/t/p/w500${movieData.poster_path}`,
+                                    }}
+                                    style={styles.poster}
+                                />
+                                <View
+                                    style={{ alignSelf: "center", width: 150 }}
+                                >
+                                    <Text style={styles.movieInfoText}>
+                                        {movieData.title}
+                                    </Text>
+                                    <Text style={styles.movieInfoText}>
+                                        ({movieData.release_date.slice(0, 4)})
+                                    </Text>
+                                    <Text style={styles.movieInfoText}>
+                                        Rating:{" "}
+                                        {movieData.vote_average.toPrecision(2) *
+                                            10}
+                                        %
+                                    </Text>
+                                    <Text style={styles.movieInfoText}>
+                                        Linguagem:{" "}
+                                        {movieData.original_language.toUpperCase()}{" "}
+                                    </Text>
+                                    <Text style={styles.movieInfoText}>
+                                        Genre:{" "}
+                                        {movieData.genres.map((item, i) =>
+                                            i < movieData.genres.length - 1
+                                                ? `  ${item.name} ,`
+                                                : `  ${item.name} `
+                                        )}{" "}
+                                    </Text>
+                                    <Text style={styles.movieInfoText}>
+                                        Time: {movieData.runtime} min
+                                    </Text>
+                                </View>
+                            </View>
+                            <View style={styles.movieDescriptionContainer}>
+                                <Text style={styles.movieWatchTitle}>
+                                    Overview:
+                                </Text>
+                                <Text style={styles.movieInfoText}>
+                                    {movieData.overview}
+                                </Text>
+                            </View>
+                        </ImageBackground>
+                    </ImageBackground>
+                    <ScrollView style={styles.moviePlayerContainer}>
+                        <View style={styles.moviePlayerTitleContainer}>
+                            <Text style={styles.movieWatchTitle}>Watch</Text>
+                        </View>
+                        <Iframe
+                            style={styles.containerWebView}
+                            uri={`https://vidsrc.me/embed/movie?tmdb=${movieData.id}&color=15006D`}
+                        />
+                    </ScrollView>
+                </>
+            ) : (
+                <View style={{ flex: 1, backgroundColor: "#021F3A" }}>
+                    <ActivityIndicator size="large" color="#FFFFFF" />
+                </View>
+            )}
+        </View>
     );
-  }
-  
-  const styles = StyleSheet.create({
+}
+
+const styles = StyleSheet.create({
     container: {
-      flex: 1,
+        flex: 1,
     },
     image: {
-      flex: 2,
-      height: "100%",
+        flex: 2,
+        height: "100%",
     },
     imageTransparent: {
-      flex: 1,
-      height: "100%",
+        flex: 1,
+        height: "100%",
     },
     movieInfoContainer: {
-      flexDirection: "row",
-      justifyContent: "space-evenly",
-      marginTop: 30,
-      flexWrap: "wrap",
+        flexDirection: "row",
+        justifyContent: "space-evenly",
+        marginTop: 30,
+        flexWrap: "wrap",
     },
     poster: {
-      width: 117,
-      height: 176,
-      borderRadius: 10,
+        width: 117,
+        height: 176,
+        borderRadius: 10,
     },
     movieInfoText: {
-      color: "white",
-      fontWeight: "bold",
+        color: "white",
+        fontWeight: "bold",
     },
     movieDescriptionContainer: {
-      marginTop: 25,
-      marginHorizontal: 30,
+        marginTop: 25,
+        marginHorizontal: 30,
     },
     moviePlayerContainer: {
-      flex: 1,
-      backgroundColor: "#021F3A",
+        flex: 1,
+        backgroundColor: "#021F3A",
     },
     moviePlayerTitleContainer: {
-      justifyContent: "flex-start",
-      alignItems: "center",
+        justifyContent: "flex-start",
+        alignItems: "center",
     },
     movieWatchTitle: {
-      color: "white",
-      fontSize: 20,
-      fontWeight: "bold",
-    },
-    seriePlayerSeasonsContainer: {
-      marginTop: 10,
-      marginHorizontal: 25,
-      flex: 1,
-    },
-    seriePlayerSeasonsTitle: {
-      color: "white",
-      fontSize: 16,
-      fontWeight: "bold",
-    },
-    seriePlayerSeasonsButtonsContainer: {
-      marginTop: 20,
-      flexDirection: "row",
-      flexWrap: "wrap",
+        color: "white",
+        fontSize: 20,
+        fontWeight: "bold",
     },
     containerWebView: {
-      flex: 1,
-      marginTop: 16,
-      height: 200,
+        flex: 1,
+        marginTop: 16,
+        height: 200,
     },
-    seriePlayerEpisodesButtonsContainer: {
-      flexDirection: "row",
-      flexWrap: "wrap",
-    },
-    seriePlayerEpisodesTitle: {
-      color: "white",
-    },
-  });
-  
+});

@@ -26,7 +26,6 @@ import {
       requestPage.current = 1;
       renew.current = true;
       requestData();
-      //  seriesData.current = [];
     }, [movieName]);
   
     const requestData = async () => {

@@ -9,7 +9,9 @@ export default function NavBar() {
   return (
     <View style={styles.container}>
       <View style={styles.navBarContainer}>
+      <Pressable onPress={()=> navigation.navigate('Home')}>
         <Image style={styles.logo} source={require("../assets/logo.png")} />
+      </Pressable>
         <Pressable onPress={() => navigation.toggleDrawer()}>
           <Icon name="bars" type="font-awesome" color="white" />
         </Pressable>
