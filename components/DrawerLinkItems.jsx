@@ -1,19 +1,30 @@
 import { Pressable, StyleSheet, Text, View } from "react-native";
-import React from "react";
+import React, { useContext } from "react";
 import { Icon } from "@rneui/base";
-import {  useNavigation } from "@react-navigation/native";
+import { useNavigation } from "@react-navigation/native";
+import { AuthContext } from "../context/AuthContext";
 
 export default function DrawerLinkItems({
   children,
   icon,
-  navigatePage,
+  navigatePage = false,
+  logout = false,
 }) {
   const navigation = useNavigation();
-
+  const { signOut } = useContext(AuthContext);
+  // ! alterar futuramente
   return (
     <Pressable
       style={styles.container}
-      onPress={() => navigation.navigate(navigatePage)}
+      onPress={
+        navigatePage
+          ? () => navigation.navigate(navigatePage)
+          : logout
+          ? () => {
+              signOut();
+            }
+          : null
+      }
     >
       <Icon name={icon} type="font-awesome" color="#021F3A" />
       <Text style={styles.linkText}>{children}</Text>

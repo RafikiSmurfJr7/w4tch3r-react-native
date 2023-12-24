@@ -1,27 +1,29 @@
-import { StyleSheet, Text, View } from "react-native";
-import React from "react";
+import { Pressable, StyleSheet, Text, View } from "react-native";
+import React, { useContext } from "react";
 import DrawerLinkItems from "./DrawerLinkItems";
+import { AuthContext } from "../context/AuthContext";
+import { DrawerContentScrollView } from "@react-navigation/drawer";
 
 export default function DrawerMenu({ navigation }) {
   return (
-    <View style={styles.container}>
+    <DrawerContentScrollView style={styles.container}>
       <DrawerLinkItems navigation={navigation} navigatePage="Home" icon="home">
         Home
       </DrawerLinkItems>
       <DrawerLinkItems navigation={navigation} navigatePage="Filme" icon="film">
-       Filmes 
-      </DrawerLinkItems>
-      <DrawerLinkItems navigation={navigation} navigatePage="People" icon="user">
-       People 
+        Filmes
       </DrawerLinkItems>
       <DrawerLinkItems
         navigation={navigation}
-        navigatePage="Login"
-        icon="sign-in"
+        navigatePage="People"
+        icon="user"
       >
-        Login
+        People
       </DrawerLinkItems>
-    </View>
+      <DrawerLinkItems logout navigation={navigation} icon="sign-out">
+        Logout
+      </DrawerLinkItems>
+    </DrawerContentScrollView>
   );
 }
 
