@@ -1,17 +1,18 @@
 import { Image, StyleSheet, Text, View } from "react-native";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import LoginForm from "../components/LoginForm";
 import { backendApi } from "../config/axios.conf";
 import ErrorAlert from "../components/ErrorAlert";
 import * as SecureStore from "expo-secure-store";
+import { AuthContext } from "../context/AuthContext";
 
 //export default function LoginScreen({ setToken }: LoginScreenProps) {
 export default function LoginScreen() {
-  const [username, setUsername]= useState("");
+  const [username, setUsername] = useState("");
 
-  const [password, setPassword]= useState("");
+  const [password, setPassword] = useState("");
 
-  const [error, setError]= useState("");
+  const [error, setError] = useState("");
 
   const [token, setToken] = useState("");
 
@@ -22,23 +23,12 @@ export default function LoginScreen() {
     //console.log(result);
   };
 
-  const submitLoginForm = () => {
-    console.log(username, password);
+  const { signIn } = useContext(AuthContext);
 
-    backendApi
-      .post("/auth/login", {
-        username: username,
-        password: password,
-      })
-      .then((res) => {
-        console.log(res);
-        setToken(res.data.token);
-        saveToken(token);
-      })
-      .catch((err) => {
-        console.log(err);
-        setError(err.response.data.detail);
-      });
+  const submitLoginForm = () => {
+    //console.log(username, password);
+
+    signIn({ username, password });
   };
 
   return (
