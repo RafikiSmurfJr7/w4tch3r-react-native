@@ -5,18 +5,21 @@ import {
     StyleSheet,
     Text,
     View,
+    ScrollView,
+    FlatList,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import { useRoute } from "@react-navigation/native";
 import NavBar from "../components/NavBar";
 import { tmdbApi } from "../config/axios.conf";
-import { ScrollView } from "react-native-gesture-handler";
-import { Iframe } from "@bounceapp/iframe";
+import { useNavigation } from "@react-navigation/native";
+
 
 export default function PeopleDetailScreen() {
     const route = useRoute();
-
     const [peopleData, setPeopleData] = useState();
+    const [castData, setCastData] = useState();
+    const [knownFor, setKnownFor] = useState([]);
 
     useEffect(() => {
         tmdbApi
@@ -27,9 +30,25 @@ export default function PeopleDetailScreen() {
             .catch((err) => {});
     }, [route.params.id]);
 
+    useEffect(() => {
+        tmdbApi
+            .get(`/person/${route.params.id}/combined_credits`)
+            .then((res) => {
+                setCastData(res.data);
+                const knownForData = res.data.cast.map((item) => ({
+                    id: item.id,
+                    title: item.title,
+                    poster_path: item.poster_path,
+                }));
+
+                setKnownFor(knownForData);
+            })
+            .catch((err) => {});
+    }, [route.params.id]);
+
     return (
         <View style={styles.container}>
-            {peopleData ? (
+            {peopleData && castData ? (
                 <>
                     <ImageBackground
                         source={{
@@ -44,7 +63,7 @@ export default function PeopleDetailScreen() {
                             style={styles.imageTransparent}
                         >
                             <NavBar />
-                            <View style={styles.movieInfoContainer}>
+                            <View style={styles.peopleInfoContainer}>
                                 <Image
                                     source={{
                                         uri: `https://image.tmdb.org/t/p/w500${peopleData.profile_path}`,
@@ -54,47 +73,53 @@ export default function PeopleDetailScreen() {
                                 <View
                                     style={{ alignSelf: "center", width: 150 }}
                                 >
-                                    <Text style={styles.movieInfoText}>
+                                    <Text style={styles.peopleInfoText}>
                                         {peopleData.name}
                                     </Text>
-                                    <Text style={styles.movieInfoText}>
+                                    <Text style={styles.peopleInfoText}>
                                         Birthday: {peopleData.birthday}{" "}
-                                        {peopleData.place_of_birth}
                                     </Text>
-                                    <Text style={styles.movieInfoText}>
-                                        Deathday: ({peopleData.deathday})
+                                    <Text style={styles.peopleInfoText}>
+                                        Place: {peopleData.place_of_birth}{" "}
                                     </Text>
-                                    <Text style={styles.movieInfoText}>
+                                    <Text style={styles.peopleInfoText}>
+                                        Deathday: {peopleData.deathday}
+                                    </Text>
+                                    <Text style={styles.peopleInfoText}>
                                         Popularity: {peopleData.popularity}
                                     </Text>
                                 </View>
-                                <View style={styles.moviePlayerTitleContainer}>
-                                <ScrollView >
-                                <View>
-                                    <Text style={styles.movieWatchTitle}>
-                                        Biography
-                                    </Text>
-                                    <Text style={styles.movieInfoText}>
-                                        {peopleData.biography}
-                                    </Text>
-                                </View>
-                                </ScrollView>
-                                </View>
-                            </View>
-                            <View style={styles.movieDescriptionContainer}>
-                                <Text style={styles.movieInfoText}>
-                                    {peopleData.overview}
-                                </Text>
                             </View>
                         </ImageBackground>
+                        <ScrollView style={styles.peopleContainer}>
+                            <View style={styles.peopleTitleContainer}>
+                                <Text style={styles.peopleTitle}>
+                                    Biography
+                                </Text>
+                                <Text style={styles.peopleInfoText}>
+                                    {peopleData.biography}
+                                </Text>
+                            </View>
+                        </ScrollView>
                     </ImageBackground>
-                    <ScrollView style={styles.moviePlayerContainer}>
-                        <View style={styles.moviePlayerTitleContainer}>
-                            <Text style={styles.movieWatchTitle}>
-                                Know from :{" "}
-                            </Text>
+                    <View style={styles.peopleContainer}>
+                        <View style={styles.peopleTitleContainer}>
+                            <Text style={styles.peopleTitle}>Known for: </Text>
+                            <FlatList
+                                data={knownFor}
+                                horizontal
+                                renderItem={({ item }) => (
+                                    <Image
+                                        source={{
+                                            uri: `https://image.tmdb.org/t/p/w500${item.poster_path}`,
+                                        }}
+                                        style={styles.knownForPoster}
+                                    />
+                                )}
+                                keyExtractor={(item) => item.id}
+                            />
                         </View>
-                    </ScrollView>
+                    </View>
                 </>
             ) : (
                 <View style={{ flex: 1, backgroundColor: "#021F3A" }}>
@@ -114,10 +139,10 @@ const styles = StyleSheet.create({
         height: "100%",
     },
     imageTransparent: {
-        flex: 1,
+        flex: 2,
         height: "100%",
     },
-    movieInfoContainer: {
+    peopleInfoContainer: {
         flexDirection: "row",
         justifyContent: "space-evenly",
         marginTop: 30,
@@ -128,52 +153,43 @@ const styles = StyleSheet.create({
         height: 176,
         borderRadius: 10,
     },
-    movieInfoText: {
+    peopleInfoText: {
         color: "white",
         fontWeight: "bold",
     },
-    movieDescriptionContainer: {
-        marginTop: 25,
-        marginHorizontal: 30,
-    },
-    moviePlayerContainer: {
+    peopleContainer: {
         flex: 1,
         backgroundColor: "#021F3A",
     },
-    moviePlayerTitleContainer: {
+    peopleTitleContainer: {
         justifyContent: "flex-start",
         alignItems: "center",
     },
-    movieWatchTitle: {
+    peopleTitle: {
         color: "white",
         fontSize: 20,
         fontWeight: "bold",
     },
-    seriePlayerSeasonsContainer: {
-        marginTop: 10,
-        marginHorizontal: 25,
-        flex: 1,
-    },
-    seriePlayerSeasonsTitle: {
-        color: "white",
-        fontSize: 16,
-        fontWeight: "bold",
-    },
-    seriePlayerSeasonsButtonsContainer: {
+    knownForContainer: {
         marginTop: 20,
-        flexDirection: "row",
-        flexWrap: "wrap",
     },
-    containerWebView: {
-        flex: 1,
-        marginTop: 16,
-        height: 200,
-    },
-    seriePlayerEpisodesButtonsContainer: {
-        flexDirection: "row",
-        flexWrap: "wrap",
-    },
-    seriePlayerEpisodesTitle: {
+    knownForTitle: {
         color: "white",
+        fontSize: 20,
+        fontWeight: "bold",
+        marginBottom: 10,
+    },
+    knownForList: {
+        flexDirection: "row",
+        marginBottom: 20,
+    },
+    knownForItem: {
+        marginRight: 10,
+    },
+    knownForPoster: {
+        width: 100,
+        height: 150,
+        borderRadius: 10,
+        marginHorizontal:5,
     },
 });
