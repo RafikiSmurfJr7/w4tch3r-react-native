@@ -116,7 +116,7 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     image: {
-        flex: 2,
+        flex: 1.4,
         height: "100%",
     },
     imageTransparent: {
