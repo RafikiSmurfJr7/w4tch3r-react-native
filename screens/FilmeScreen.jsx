@@ -1,14 +1,15 @@
-import { Button, StyleSheet, Text, View } from "react-native";
+import React, { useState, useContext } from "react";
+import { StyleSheet, Text, View, Switch } from "react-native";
 import NavBar from "../components/NavBar";
-import { useContext, useState } from "react";
 import { ThemeColor } from "../context/ThemeColor";
-import Filters from "../components/Filters";
 import MoviesTopRatedList from "../components/movies/MovieTopRatedList";
 import MovieSearchList from "../components/movies/MovieSearchList";
+import MoviesPopularList from "../components/movies/MoviePopularList";
 
 export default function FilmeScreen({ navigation }) {
   const colors = useContext(ThemeColor);
-  const styles = {
+  
+  const styles = StyleSheet.create({
     container: {
       flex: 1,
       backgroundColor: colors.blue,
@@ -19,27 +20,45 @@ export default function FilmeScreen({ navigation }) {
       flex: 1,
       marginTop: 10,
     },
-  };
+    switchContainer: {
+      flexDirection: "row",
+      alignItems: "center",
+      justifyContent: "center",
+      marginTop: 10,
+    },
+    switchLabel: {
+      color: colors.white,
+      marginRight: 10,
+    },
+  });
   const [movieName, setMovieName] = useState("");
+  const [showTopRated, setShowTopRated] = useState(true);
 
   return (
     <View style={styles.container}>
       <View style={styles.subContainerNavBar}>
         <NavBar />
       </View>
-      <View style={styles.subContainerFilter}>
-        <Filters setMovieName={setMovieName} movieName={movieName} />
+      {/* <View style={styles.subContainerFilter}>
+        <MovieFilters setMovieName={setMovieName} movieName={movieName} />
+      </View> */}
+      <View style={styles.switchContainer}>
+        <Text style={styles.switchLabel}>Popular</Text>
+        <Switch
+          value={showTopRated}
+          onValueChange={() => setShowTopRated(!showTopRated)}
+        />
+        <Text style={styles.switchLabel}>  Top Rated</Text>
       </View>
-
-      {movieName != "" ? (
-        <View style={styles.listContainer}>
+      <View style={styles.listContainer}>
+        {movieName !== "" ? (
           <MovieSearchList movieName={movieName} />
-        </View>
-      ) : (
-        <View style={styles.listContainer}>
+        ) : showTopRated ? (
           <MoviesTopRatedList />
-        </View>
-      )}
+        ) : (
+          <MoviesPopularList />
+        )}
+      </View>
     </View>
   );
 }

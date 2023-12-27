@@ -10,7 +10,7 @@ import {
   import { tmdbApi } from "../../config/axios.conf";
   
   
-  export default function MoviesTopRatedList() {
+  export default function MoviesPopularList() {
     const [moviesData, setMoviesData] = useState([]);
   
     const [isLoading, setIsLoading] = useState(false);
@@ -25,7 +25,7 @@ import {
       setIsLoading(true);
   
       await tmdbApi
-        .get(`/movie/top_rated?page=${requestPage.current}`)
+        .get(`/movie/popular?page=${requestPage.current}`)
         .then((res) => {
           setMoviesData([...moviesData, ...res.data.results]);
           requestPage.current += 1;
