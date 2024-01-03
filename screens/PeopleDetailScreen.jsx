@@ -116,7 +116,7 @@ export default function PeopleDetailScreen() {
                                         style={styles.knownForPoster}
                                     />
                                 )}
-                                keyExtractor={(item) => item.id}
+                                keyExtractor={(item) => Math.random()*100+item.id}
                             />
                         </View>
                     </View>
