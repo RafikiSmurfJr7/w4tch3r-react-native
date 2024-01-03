@@ -13,7 +13,7 @@ import { tmdbApi } from "../config/axios.conf";
 import { ScrollView } from "react-native-gesture-handler";
 import { Iframe } from "@bounceapp/iframe";
 
-export default function FilmeDetailScreen() {
+export default function FilmeDetailScreen({}) {
     const route = useRoute();
     const [movieData, setMovieData] = useState();
 
