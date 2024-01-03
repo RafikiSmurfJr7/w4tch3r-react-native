@@ -3,7 +3,7 @@ from pymongo.server_api import ServerApi
 import pprint
 
 # Replace the placeholder with your Atlas connection string
-uri = "mongodb://user:pass@localhost:27017/"
+uri = "mongodb://localhost:27017"
 
 # Set the Stable API version when creating a new client
 client = MongoClient(uri)

@@ -47,7 +47,7 @@ export default function MoviesCard({
       paddingEnd: 5,
     },
     title: {
-      fontWeight: "bold",
+      fontWeight:'bold',
     },
     rating: {
       fontWeight: "bold",
