@@ -57,7 +57,7 @@ export default function SeriesCard({
   return (
     <Pressable
       style={styles.container}
-      onPress={() => navigation.navigate("Serie", { id: id })}
+      onPress={() => navigation.navigate("SerieDetail", { id: id })}
     >
       <Image
         source={{ uri: `https://image.tmdb.org/t/p/w500${img}` }}
