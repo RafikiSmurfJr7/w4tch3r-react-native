@@ -10,10 +10,10 @@ import {
   import { useRoute } from "@react-navigation/native";
   import NavBar from "../components/NavBar";
   import { tmdbApi } from "../config/axios.conf";
-  import SerieSeasonEpisodeButton from "../components/SerieSeasonEpisodeButton";
+  import SerieSeasonEpisodeButton from "../components/series/SerieSeasonEpisodeButton";
   import { ScrollView } from "react-native-gesture-handler";
   import { Iframe } from "@bounceapp/iframe";
-  import SerieEpisodeButton from "../components/SerieEpisodeButton";
+  import SerieEpisodeButton from "../components/series/SerieEpisodeButton";
   
   export default function SerieDetailScreen() {
     const route = useRoute();

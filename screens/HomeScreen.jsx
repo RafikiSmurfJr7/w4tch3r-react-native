@@ -3,11 +3,9 @@ import NavBar from "../components/NavBar";
 import { useContext, useState } from "react";
 import { ThemeColor } from "../context/ThemeColor";
 import Filters from "../components/Filters";
-import SerieTopRatedList from "../components/SerieTopRatedList";
-import SerieSearchList from "../components/SerieSearchList";
+import SeriePopularList from "../components/series/SeriePopularList";
 import MovieSearchList from "../components/movies/MovieSearchList";
 import MoviesPopularList from "../components/movies/MoviePopularList";
-import MoviesTopRatedList from "../components/movies/MovieTopRatedList";
 import SwitchSelector from "react-native-switch-selector";
 
 export default function HomeScreen({ navigation }) {
@@ -72,7 +70,7 @@ export default function HomeScreen({ navigation }) {
                 ) : showTopRated ? (
                     <MoviesPopularList />
                 ) : (
-                    <SerieTopRatedList />
+                    <SeriePopularList />
                 )}
             </View>
         </View>
