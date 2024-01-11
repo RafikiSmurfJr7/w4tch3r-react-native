@@ -44,7 +44,7 @@ export default function FilmeDetailScreen({}) {
     };
 
     const handleWatchLater = () => {
-        // Implementar a lógica para "Assistir Mais Tarde" aqui
+      
         setIsWatchLaterClicked(!isWatchLaterClicked);
     };
 
