@@ -2,15 +2,14 @@ import React, { useState, useContext } from "react";
 import { StyleSheet, Text, View, Switch } from "react-native";
 import NavBar from "../components/NavBar";
 import { ThemeColor } from "../context/ThemeColor";
+import MovieFilters from "../components/movies/MovieFilter";
 import MoviesTopRatedList from "../components/movies/MovieTopRatedList";
 import MovieSearchList from "../components/movies/MovieSearchList";
 import MoviesPopularList from "../components/movies/MoviePopularList";
 import SwitchSelector from "react-native-switch-selector";
 
-
-export default function FilmeScreen({ navigation }) {
+export default function FilmeScreen({ navigation, route }) {
     const colors = useContext(ThemeColor);
-
     const styles = StyleSheet.create({
         container: {
             flex: 1,
@@ -41,9 +40,9 @@ export default function FilmeScreen({ navigation }) {
             <View style={styles.subContainerNavBar}>
                 <NavBar />
             </View>
-            {/* <View style={styles.subContainerFilter}>
-        <MovieFilters setMovieName={setMovieName} movieName={movieName} />
-      </View> */}
+            <View style={styles.subContainerFilter}>
+                <MovieFilters setMovieName={setMovieName} movieName={movieName} />
+            </View>
             <View style={styles.switchContainer}>
                 <SwitchSelector
                     initial={0}

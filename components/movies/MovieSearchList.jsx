@@ -60,7 +60,7 @@ import {
             renderItem={({ item }) => (
               <MoviesCard
                 id={item.id}
-                title={item.name}
+                title={item.title}
                 img={item.poster_path}
                 rating={String(item.vote_average.toPrecision(2))}
                 year={item.release_date.slice(0, 4)}
