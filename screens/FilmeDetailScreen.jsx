@@ -12,6 +12,7 @@ export default function FilmeDetailScreen({}) {
     const route = useRoute();
     const [movieData, setMovieData] = useState();
     const [isFavorito, setIsFavorito] = useState(false);
+    const [isWatchLaterClicked, setIsWatchLaterClicked] = useState(false);
 
     useEffect(() => {
         tmdbApi
@@ -30,10 +31,8 @@ export default function FilmeDetailScreen({}) {
             const isAlreadyFavorited = favorites.some(fav => fav.id === movieData.id);
 
             if (isAlreadyFavorited) {
-                
                 favorites = favorites.filter(fav => fav.id !== movieData.id);
             } else {
-             
                 favorites.push({ id: movieData.id, title: movieData.title });
             }
 
@@ -42,6 +41,11 @@ export default function FilmeDetailScreen({}) {
         } catch (error) {
             console.error('Error manipulating favorites:', error);
         }
+    };
+
+    const handleWatchLater = () => {
+        // Implementar a lógica para "Assistir Mais Tarde" aqui
+        setIsWatchLaterClicked(!isWatchLaterClicked);
     };
 
     return (
@@ -70,6 +74,12 @@ export default function FilmeDetailScreen({}) {
                                     size={30}
                                     color="yellow"
                                 />
+                            </TouchableOpacity>
+                            <TouchableOpacity
+                                onPress={handleWatchLater}
+                                style={{ position: 'absolute', top: 72, right: 80, zIndex: 1 }}
+                            >
+                                <Icon name="time" size={30} color={isWatchLaterClicked ? 'orange' : 'white'} />
                             </TouchableOpacity>
                             <View style={styles.movieInfoContainer}>
                                 <Image

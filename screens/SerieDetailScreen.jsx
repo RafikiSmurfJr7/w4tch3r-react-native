@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 import {
   ActivityIndicator,
   Image,
@@ -7,14 +7,15 @@ import {
   Text,
   View,
   TouchableOpacity,
-} from 'react-native';
-import { useRoute } from '@react-navigation/native';
-import NavBar from '../components/NavBar';
-import { tmdbApi } from '../config/axios.conf';
-import SerieSeasonEpisodeButton from '../components/series/SerieSeasonEpisodeButton';
-import { ScrollView } from 'react-native-gesture-handler';
-import { Iframe } from '@bounceapp/iframe';
-import SerieEpisodeButton from '../components/series/SerieEpisodeButton';
+} from "react-native";
+import { ScrollView } from "react-native-gesture-handler";
+import { Iframe } from "@bounceapp/iframe";
+import { useRoute } from "@react-navigation/native";
+import NavBar from "../components/NavBar";
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { tmdbApi } from "../config/axios.conf";
+import SerieSeasonEpisodeButton from "../components/series/SerieSeasonEpisodeButton";
+import SerieEpisodeButton from "../components/series/SerieEpisodeButton";
 import Icon from 'react-native-vector-icons/Ionicons';
 
 export default function SerieDetailScreen() {
@@ -26,6 +27,7 @@ export default function SerieDetailScreen() {
   const [episodesArray, setEpisodesArray] = useState([0]);
   const [episode, setEpisode] = useState(1);
   const [isFavorito, setIsFavorito] = useState(false);
+  const [isWatchLaterClicked, setIsWatchLaterClicked] = useState(false);
 
   useEffect(() => {
     setShowEpisodes(false);
@@ -62,8 +64,12 @@ export default function SerieDetailScreen() {
   };
 
   const toggleFavorite = () => {
-    
     setIsFavorito(!isFavorito);
+  };
+
+  const handleWatchLater = () => {
+    // Implementar a lógica para "Assistir Mais Tarde" aqui
+    setIsWatchLaterClicked(!isWatchLaterClicked);
   };
 
   return (
@@ -78,10 +84,11 @@ export default function SerieDetailScreen() {
             style={styles.image}
           >
             <ImageBackground
-              source={require('../assets/angryimg.png')}
+              source={require("../assets/angryimg.png")}
               resizeMode="cover"
               style={styles.imageTransparent}
             >
+              <NavBar />
               <TouchableOpacity
                 style={styles.starContainer}
                 onPress={toggleFavorite}
@@ -92,7 +99,12 @@ export default function SerieDetailScreen() {
                   color="yellow"
                 />
               </TouchableOpacity>
-              <NavBar />
+              <TouchableOpacity
+                onPress={handleWatchLater}
+                style={{ position: 'absolute', top: 72, right: 80, zIndex: 1 }}
+              >
+                <Icon name="time" size={30} color={isWatchLaterClicked ? 'orange' : 'white'} />
+              </TouchableOpacity>
               <View style={styles.serieInfoContainer}>
                 <Image
                   source={{
@@ -174,7 +186,7 @@ export default function SerieDetailScreen() {
           </ScrollView>
         </>
       ) : (
-        <View style={{ flex: 1, backgroundColor: '#021F3A' }}>
+        <View style={{ flex: 1, backgroundColor: "#021F3A" }}>
           <ActivityIndicator size="large" color="#FFFFFF" />
         </View>
       )}
@@ -188,17 +200,17 @@ const styles = StyleSheet.create({
   },
   image: {
     flex: 2,
-    height: '100%',
+    height: "100%",
   },
   imageTransparent: {
     flex: 1,
-    height: '100%',
+    height: "100%",
   },
   serieInfoContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-evenly',
+    flexDirection: "row",
+    justifyContent: "space-evenly",
     marginTop: 30,
-    flexWrap: 'wrap',
+    flexWrap: "wrap",
   },
   poster: {
     width: 117,
@@ -206,8 +218,8 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   serieInfoText: {
-    color: 'white',
-    fontWeight: 'bold',
+    color: "white",
+    fontWeight: "bold",
   },
   serieDescriptionContainer: {
     marginTop: 25,
@@ -215,16 +227,16 @@ const styles = StyleSheet.create({
   },
   seriePlayerContainer: {
     flex: 1,
-    backgroundColor: '#021F3A',
+    backgroundColor: "#021F3A",
   },
   seriePlayerTitleContainer: {
-    justifyContent: 'flex-start',
-    alignItems: 'center',
+    justifyContent: "flex-start",
+    alignItems: "center",
   },
   serieWatchTitle: {
-    color: 'white',
+    color: "white",
     fontSize: 20,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
   seriePlayerSeasonsContainer: {
     marginTop: 10,
@@ -232,14 +244,14 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   seriePlayerSeasonsTitle: {
-    color: 'white',
+    color: "white",
     fontSize: 16,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
   seriePlayerSeasonsButtonsContainer: {
     marginTop: 20,
-    flexDirection: 'row',
-    flexWrap: 'wrap',
+    flexDirection: "row",
+    flexWrap: "wrap",
   },
   containerWebView: {
     flex: 1,
@@ -247,11 +259,11 @@ const styles = StyleSheet.create({
     height: 200,
   },
   seriePlayerEpisodesButtonsContainer: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
+    flexDirection: "row",
+    flexWrap: "wrap",
   },
   seriePlayerEpisodesTitle: {
-    color: 'white',
+    color: "white",
   },
   starContainer: {
     position: 'absolute',
