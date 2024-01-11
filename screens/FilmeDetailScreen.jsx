@@ -1,14 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import {
-  ActivityIndicator,
-  Image,
-  ImageBackground,
-  StyleSheet,
-  Text,
-  View,
-  TouchableOpacity,
-  ScrollView,
-} from 'react-native';
+import {  ActivityIndicator,  Image,  ImageBackground,  StyleSheet,  Text,  View,  TouchableOpacity,  ScrollView,} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { Iframe } from '@bounceapp/iframe';
 import AsyncStorage from '@react-native-async-storage/async-storage';
