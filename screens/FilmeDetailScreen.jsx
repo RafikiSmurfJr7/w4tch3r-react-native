@@ -6,7 +6,7 @@ import { Iframe } from "@bounceapp/iframe";
 import { useRoute } from "@react-navigation/native";
 import NavBar from "../components/NavBar";
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { tmdbApi } from "../config/axios.conf";  // Import tmdbApi
+import { tmdbApi } from "../config/axios.conf";  
 
 export default function FilmeDetailScreen() {
     const route = useRoute();
@@ -30,10 +30,10 @@ export default function FilmeDetailScreen() {
             const isAlreadyFavorited = favorites.some(fav => fav.id === movieData.id);
 
             if (isAlreadyFavorited) {
-                // Remove from the list of favorites
+                
                 favorites = favorites.filter(fav => fav.id !== movieData.id);
             } else {
-                // Add to the list of favorites
+             
                 favorites.push({ id: movieData.id, title: movieData.title });
             }
 
