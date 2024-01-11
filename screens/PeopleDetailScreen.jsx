@@ -7,6 +7,7 @@ import {
     View,
     ScrollView,
     FlatList,
+    Pressable,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import { useRoute } from "@react-navigation/native";
@@ -14,12 +15,12 @@ import NavBar from "../components/NavBar";
 import { tmdbApi } from "../config/axios.conf";
 import { useNavigation } from "@react-navigation/native";
 
-
 export default function PeopleDetailScreen() {
     const route = useRoute();
     const [peopleData, setPeopleData] = useState();
     const [castData, setCastData] = useState();
     const [knownFor, setKnownFor] = useState([]);
+    const navigation = useNavigation();
 
     useEffect(() => {
         tmdbApi
@@ -38,6 +39,7 @@ export default function PeopleDetailScreen() {
                 const knownForData = res.data.cast.map((item) => ({
                     id: item.id,
                     title: item.title,
+                    media_type: item.media_type,
                     poster_path: item.poster_path,
                 }));
 
@@ -46,6 +48,13 @@ export default function PeopleDetailScreen() {
             .catch((err) => {});
     }, [route.params.id]);
 
+    const producao = (itemId, mediaType) => {
+        if (mediaType === "movie") {
+            navigation.navigate("FilmeDetail", { id : itemId });
+        } else if (mediaType === "tv") {
+            navigation.navigate("Serie", { id: itemId });
+        }
+    };
     return (
         <View style={styles.container}>
             {peopleData && castData ? (
@@ -108,15 +117,29 @@ export default function PeopleDetailScreen() {
                             <FlatList
                                 data={knownFor}
                                 horizontal
+                                showsHorizontalScrollIndicator={false}
                                 renderItem={({ item }) => (
-                                    <Image
-                                        source={{
-                                            uri: `https://image.tmdb.org/t/p/w500${item.poster_path}`,
-                                        }}
-                                        style={styles.knownForPoster}
-                                    />
+                                    <View>
+                                        <Pressable
+                                            key={item.id}
+                                            style={styles.knownForItem}
+                                            onPress={() =>
+                                                producao(
+                                                    item.id,
+                                                    item.media_type
+                                                )
+                                            }
+                                        >
+                                            <Image
+                                                source={{
+                                                    uri: `https://image.tmdb.org/t/p/w500${item.poster_path}`,
+                                                }}
+                                                style={styles.knownForPoster}
+                                            />
+                                        </Pressable>
+                                    </View>
                                 )}
-                                keyExtractor={(item) => item.id}
+                                keyExtractor={(item) => Math.random()*100+item.id}
                             />
                         </View>
                     </View>
@@ -190,6 +213,6 @@ const styles = StyleSheet.create({
         width: 100,
         height: 150,
         borderRadius: 10,
-        marginHorizontal:5,
+        marginHorizontal: 5,
     },
 });

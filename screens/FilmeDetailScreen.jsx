@@ -8,7 +8,7 @@ import NavBar from "../components/NavBar";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { tmdbApi } from "../config/axios.conf";  
 
-export default function FilmeDetailScreen() {
+export default function FilmeDetailScreen({}) {
     const route = useRoute();
     const [movieData, setMovieData] = useState();
     const [isFavorito, setIsFavorito] = useState(false);
