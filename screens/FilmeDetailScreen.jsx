@@ -1,21 +1,17 @@
-import {
-    ActivityIndicator,
-    Image,
-    ImageBackground,
-    StyleSheet,
-    Text,
-    View,
-} from "react-native";
 import React, { useEffect, useState } from "react";
+import { Image, ImageBackground, StyleSheet, Text, View, TouchableOpacity, ActivityIndicator } from "react-native";
+import { ScrollView } from "react-native-gesture-handler";
+import Icon from 'react-native-vector-icons/Ionicons';
+import { Iframe } from "@bounceapp/iframe";
 import { useRoute } from "@react-navigation/native";
 import NavBar from "../components/NavBar";
-import { tmdbApi } from "../config/axios.conf";
-import { ScrollView } from "react-native-gesture-handler";
-import { Iframe } from "@bounceapp/iframe";
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { tmdbApi } from "../config/axios.conf";  // Import tmdbApi
 
 export default function FilmeDetailScreen() {
     const route = useRoute();
     const [movieData, setMovieData] = useState();
+    const [isFavorito, setIsFavorito] = useState(false);
 
     useEffect(() => {
         tmdbApi
@@ -25,6 +21,28 @@ export default function FilmeDetailScreen() {
             })
             .catch((err) => {});
     }, [route.params.id]);
+
+    const toggleFavorite = async () => {
+        try {
+            const storedFavorites = await AsyncStorage.getItem('favorites');
+            let favorites = storedFavorites ? JSON.parse(storedFavorites) : [];
+
+            const isAlreadyFavorited = favorites.some(fav => fav.id === movieData.id);
+
+            if (isAlreadyFavorited) {
+                // Remove from the list of favorites
+                favorites = favorites.filter(fav => fav.id !== movieData.id);
+            } else {
+                // Add to the list of favorites
+                favorites.push({ id: movieData.id, title: movieData.title });
+            }
+
+            await AsyncStorage.setItem('favorites', JSON.stringify(favorites));
+            setIsFavorito(!isFavorito);
+        } catch (error) {
+            console.error('Error manipulating favorites:', error);
+        }
+    };
 
     return (
         <View style={styles.container}>
@@ -43,6 +61,16 @@ export default function FilmeDetailScreen() {
                             style={styles.imageTransparent}
                         >
                             <NavBar />
+                            <TouchableOpacity
+                                style={styles.starContainer}
+                                onPress={toggleFavorite}
+                            >
+                                <Icon
+                                    name={isFavorito ? 'star' : 'star-outline'}
+                                    size={30}
+                                    color="yellow"
+                                />
+                            </TouchableOpacity>
                             <View style={styles.movieInfoContainer}>
                                 <Image
                                     source={{
@@ -66,7 +94,7 @@ export default function FilmeDetailScreen() {
                                         %
                                     </Text>
                                     <Text style={styles.movieInfoText}>
-                                        Linguagem:{" "}
+                                        Language:{" "}
                                         {movieData.original_language.toUpperCase()}{" "}
                                     </Text>
                                     <Text style={styles.movieInfoText}>
@@ -83,8 +111,7 @@ export default function FilmeDetailScreen() {
                                 </View>
                             </View>
                             <View style={styles.movieDescriptionContainer}>
-                                <Text style={styles.movieWatchTitle}>
-                                    Overview:
+                                <Text style={styles.movieWatchTitle}>                                    
                                 </Text>
                                 <Text style={styles.movieInfoText}>
                                     {movieData.overview}
@@ -123,6 +150,12 @@ const styles = StyleSheet.create({
         flex: 1,
         height: "100%",
     },
+    starContainer: {
+        position: 'absolute',
+        top: 70,
+        right: 40,
+        zIndex: 1,
+    },
     movieInfoContainer: {
         flexDirection: "row",
         justifyContent: "space-evenly",
@@ -141,6 +174,8 @@ const styles = StyleSheet.create({
     movieDescriptionContainer: {
         marginTop: 25,
         marginHorizontal: 30,
+        flexDirection: 'row',
+        alignItems: 'center',
     },
     moviePlayerContainer: {
         flex: 1,
@@ -154,6 +189,7 @@ const styles = StyleSheet.create({
         color: "white",
         fontSize: 20,
         fontWeight: "bold",
+        marginLeft: 8,
     },
     containerWebView: {
         flex: 1,

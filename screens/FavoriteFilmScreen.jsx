@@ -1,12 +1,30 @@
-import React from 'react';
-import { View, Text, Button, Image } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { View, Text, Button, Image, FlatList, ActivityIndicator } from 'react-native';
 import NavBar from '../components/NavBar';
-import { useNavigation } from '@react-navigation/native';
 import { useThemeColor } from '../context/ThemeColor';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const FavoriteFilmScreen = () => {
-  const navigation = useNavigation();
   const { blue } = useThemeColor();
+  const [favorites, setFavorites] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const loadFavorites = async () => {
+      try {
+        const storedFavorites = await AsyncStorage.getItem('favorites');
+        if (storedFavorites) {
+          setFavorites(JSON.parse(storedFavorites));
+        }
+      } catch (error) {
+        console.error('Erro ao carregar favoritos:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadFavorites();
+  }, []);
 
   return (
     <View style={{ flex: 1, backgroundColor: blue, padding: 16 }}>
@@ -30,6 +48,20 @@ const FavoriteFilmScreen = () => {
         />
         <Text style={{ fontSize: 18, fontWeight: 'bold', color: 'white' }}>Filmes Favoritos</Text>
       </View>
+
+      {loading ? (
+        <ActivityIndicator size="large" color="#FFFFFF" />
+      ) : (
+        <FlatList
+          data={favorites}
+          keyExtractor={(item) => item.id.toString()}
+          renderItem={({ item }) => (
+            <View style={{ marginBottom: 8 }}>
+              <Text style={{ color: 'white' }}>{item.title}</Text>
+            </View>
+          )}
+        />
+      )}
     </View>
   );
 };
