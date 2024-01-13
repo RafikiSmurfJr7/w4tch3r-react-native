@@ -11,9 +11,9 @@ import { tmdbApi } from "../config/axios.conf";
 export default function FilmeDetailScreen({}) {
     const route = useRoute();
     const [movieData, setMovieData] = useState();
-    const [isFavorito, setIsFavorito] = useState(false);
     const [isWatchLaterClicked, setIsWatchLaterClicked] = useState(false);
-
+    const [favoritos, setFavoritos] = useState([]);
+    
     useEffect(() => {
         tmdbApi
             .get(`/movie/${route.params.id}`)
@@ -23,29 +23,78 @@ export default function FilmeDetailScreen({}) {
             .catch((err) => {});
     }, [route.params.id]);
 
+    useEffect(() => {
+        const loadFavorites = async () => {
+            try {
+                const storedFavorites = await AsyncStorage.getItem('favorites');
+                if (storedFavorites) {
+                    setFavoritos(JSON.parse(storedFavorites));
+                }
+            } catch (error) {
+                console.error('Error loading favorites:', error);
+            }
+        };
+
+        const checkIsWatchLater = async () => {
+            try {
+                const storedWatchLater = await AsyncStorage.getItem('watchLater');
+                const watchLaterList = storedWatchLater ? JSON.parse(storedWatchLater) : [];
+                const isAlreadyInWatchLater = watchLaterList.some(item => item.id === movieData?.id);
+                setIsWatchLaterClicked(isAlreadyInWatchLater);
+            } catch (error) {
+                console.error('Error checking if movie is in "Assistir Mais Tarde":', error);
+            }
+        };
+
+        loadFavorites();
+        checkIsWatchLater();
+    }, [movieData]);
+
+    const isFavorito = favoritos.some(fav => fav.id === movieData?.id);
+
     const toggleFavorite = async () => {
         try {
-            const storedFavorites = await AsyncStorage.getItem('favorites');
-            let favorites = storedFavorites ? JSON.parse(storedFavorites) : [];
+            let updatedFavorites = [...favoritos];
 
-            const isAlreadyFavorited = favorites.some(fav => fav.id === movieData.id);
+            const isAlreadyFavorited = updatedFavorites.some(fav => fav.id === movieData.id);
 
             if (isAlreadyFavorited) {
-                favorites = favorites.filter(fav => fav.id !== movieData.id);
+                updatedFavorites = updatedFavorites.filter(fav => fav.id !== movieData.id);
             } else {
-                favorites.push({ id: movieData.id, title: movieData.title });
+                updatedFavorites.push({ id: movieData.id, title: movieData.title });
             }
 
-            await AsyncStorage.setItem('favorites', JSON.stringify(favorites));
-            setIsFavorito(!isFavorito);
+            await AsyncStorage.setItem('favorites', JSON.stringify(updatedFavorites));
+            setFavoritos(updatedFavorites);
         } catch (error) {
             console.error('Error manipulating favorites:', error);
         }
     };
 
-    const handleWatchLater = () => {
-      
-        setIsWatchLaterClicked(!isWatchLaterClicked);
+    const handleWatchLater = async () => {
+        try {
+            const storedWatchLater = await AsyncStorage.getItem('watchLater');
+            let watchLaterList = storedWatchLater ? JSON.parse(storedWatchLater) : [];
+
+            const isAlreadyInWatchLater = watchLaterList.some(item => item.id === movieData.id);
+
+            if (isAlreadyInWatchLater) {
+                watchLaterList = watchLaterList.filter(item => item.id !== movieData.id);
+            } else {
+                watchLaterList.push({
+                    id: movieData.id,
+                    title: movieData.title,
+                    poster_path: movieData.poster_path,
+                    vote_average: movieData.vote_average,
+                    // Add other relevant information
+                });
+            }
+
+            await AsyncStorage.setItem('watchLater', JSON.stringify(watchLaterList));
+            setIsWatchLaterClicked(!isWatchLaterClicked);
+        } catch (error) {
+            console.error('Error manipulating "Assistir Mais Tarde":', error);
+        }
     };
 
     return (
