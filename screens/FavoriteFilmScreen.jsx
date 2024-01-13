@@ -65,7 +65,7 @@ const FavoriteFilmScreen = ({ navigation }) => {
       console.error('Erro ao atualizar favoritos no AsyncStorage:', error);
     }
 
-    // Verificar se o item removido é uma série e removê-lo de onAirSeries
+  
     const removedSerie = onAirSeries.find((serie) => serie.id === id);
     if (removedSerie) {
       const updatedOnAirSeries = onAirSeries.filter((serie) => serie.id !== id);
@@ -144,16 +144,16 @@ const FavoriteFilmScreen = ({ navigation }) => {
     },
     clockIcon: {
       marginLeft: 8,
-      color: 'orange', // Defina a cor do ícone do relógio com base na cor do texto
+      color: 'orange', 
     },
     starIcon: {
       marginLeft: 8,
-      color: 'yellow', // Defina a cor do ícone da estrela com base na cor do texto
+      color: 'yellow', 
     },
   });
 
   const navigateToDetails = (type, id) => {
-    // Use a propriedade "type" para determinar se é um filme ou uma série
+ 
     const detailsScreen = type === 'movie' ? 'FilmeDetail' : 'SerieDetail';
 
     navigation.navigate(detailsScreen, { id });

@@ -86,7 +86,7 @@ export default function FilmeDetailScreen({}) {
                     title: movieData.title,
                     poster_path: movieData.poster_path,
                     vote_average: movieData.vote_average,
-                    // Add other relevant information
+                   
                 });
             }
 

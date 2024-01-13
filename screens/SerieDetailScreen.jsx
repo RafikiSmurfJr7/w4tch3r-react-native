@@ -71,7 +71,7 @@ const SerieDetailScreen = ({ navigation }) => {
           name: serieData.name,
           poster_path: serieData.poster_path,
           vote_average: serieData.vote_average,
-          // Adicione outras informações relevantes
+      
         });
       }
 
@@ -132,7 +132,7 @@ const SerieDetailScreen = ({ navigation }) => {
           name: serieData.name,
           poster_path: serieData.poster_path,
           vote_average: serieData.vote_average,
-          // Adicione outras informações relevantes
+        
         });
       }
 
