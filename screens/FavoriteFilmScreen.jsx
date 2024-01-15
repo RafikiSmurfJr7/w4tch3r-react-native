@@ -5,13 +5,14 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useThemeColor } from "../context/ThemeColor";
 import SwitchSelector from "react-native-switch-selector";
 import { tmdbApi } from "../config/axios.conf";
+import NavBar from "../components/NavBar";
 
 const FavoriteFilmScreen = ({ navigation }) => {
   const { blue, text, white } = useThemeColor();
   const [favorites, setFavorites] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showWatchLater, setShowWatchLater] = useState(false);
-  const [popularMovies, setPopularMovies] = useState([]); 
+  const [popularMovies, setPopularMovies] = useState([]);
   const [onAirSeries, setOnAirSeries] = useState([]);
 
   useEffect(() => {
@@ -40,7 +41,7 @@ const FavoriteFilmScreen = ({ navigation }) => {
     const loadOnAirSeries = async () => {
       try {
         const response = await tmdbApi.get('/tv/on_the_air');
-        setOnAirSeries(response.data.results);
+        setOnAirSeries(response.data.results.map(serie => ({ ...serie, watchLater: false })));
       } catch (error) {
         console.error('Erro ao carregar séries em exibição:', error);
       }
@@ -49,6 +50,26 @@ const FavoriteFilmScreen = ({ navigation }) => {
     loadFavorites();
     loadPopularMovies();
     loadOnAirSeries();
+  }, []);
+
+  useEffect(() => {
+    const loadWatchLaterSeries = async () => {
+      try {
+        const storedWatchLater = await AsyncStorage.getItem('watchLaterSeries');
+        const watchLaterList = storedWatchLater ? JSON.parse(storedWatchLater) : [];
+
+        setOnAirSeries((onAirSeries) => {
+          return onAirSeries.map((serie) => {
+            const watchLaterItem = watchLaterList.find((item) => item.id === serie.id);
+            return watchLaterItem ? { ...serie, watchLater: true } : serie;
+          });
+        });
+      } catch (error) {
+        console.error('Erro ao carregar séries em exibição:', error);
+      }
+    };
+
+    loadWatchLaterSeries();
   }, []);
 
   const handleToggleWatchLater = () => {
@@ -65,10 +86,11 @@ const FavoriteFilmScreen = ({ navigation }) => {
       console.error('Erro ao atualizar favoritos no AsyncStorage:', error);
     }
 
-  
     const removedSerie = onAirSeries.find((serie) => serie.id === id);
     if (removedSerie) {
-      const updatedOnAirSeries = onAirSeries.filter((serie) => serie.id !== id);
+      const updatedOnAirSeries = onAirSeries.map((serie) => {
+        return serie.id === id ? { ...serie, watchLater: false } : serie;
+      });
       setOnAirSeries(updatedOnAirSeries);
     }
   };
@@ -79,8 +101,8 @@ const FavoriteFilmScreen = ({ navigation }) => {
   ];
 
   const filteredFavorites = showWatchLater
-    ? favorites.filter((item) => item.watchLater).concat(onAirSeries)
-    : favorites.concat(onAirSeries);
+    ? favorites.filter((item) => item.watchLater).concat(onAirSeries.filter((item) => item.watchLater))
+    : favorites;
 
   const getFavoriteDetails = (id) => {
     const movie = popularMovies.find((movie) => movie.id === id);
@@ -144,23 +166,25 @@ const FavoriteFilmScreen = ({ navigation }) => {
     },
     clockIcon: {
       marginLeft: 8,
-      color: 'orange', 
+      color: 'orange',
     },
     starIcon: {
       marginLeft: 8,
-      color: 'yellow', 
+      color: 'yellow',
     },
+    subContainerNavBar: {},
   });
 
   const navigateToDetails = (type, id) => {
- 
     const detailsScreen = type === 'movie' ? 'FilmeDetail' : 'SerieDetail';
-
     navigation.navigate(detailsScreen, { id });
   };
 
   return (
     <View style={styles.container}>
+      <View style={styles.subContainerNavBar}>
+        <NavBar />
+      </View>
       <View style={styles.switchContainer}>
         <SwitchSelector
           initial={showWatchLater ? 1 : 0}
