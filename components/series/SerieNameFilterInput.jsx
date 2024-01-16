@@ -24,6 +24,10 @@ export default function SerieNameFilterInput({ setSerieName, serieName }) {
         },
     };
 
+    const handleSearch = () => {
+        setSerieName(text);
+        setText('');
+    };
     return (
         <View>
             <TextInput
@@ -32,7 +36,7 @@ export default function SerieNameFilterInput({ setSerieName, serieName }) {
                 onChangeText={setText}
                 value={text}
                 inputMode="search"
-                onSubmitEditing={() => setSerieName(text)}
+                onSubmitEditing={handleSearch}
             />
             <View style={styles.searchIcon}>
                 <Icon

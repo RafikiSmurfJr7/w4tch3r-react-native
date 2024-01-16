@@ -24,6 +24,11 @@ export default function PeopleNameFilterInput({ setPeopleName, peopleName }) {
         },
     };
 
+    const handleSearch = () => {
+        setPeopleName(text);
+        setText('');
+    };
+
     return (
         <View>
             <TextInput
@@ -32,7 +37,7 @@ export default function PeopleNameFilterInput({ setPeopleName, peopleName }) {
                 onChangeText={setText}
                 value={text}
                 inputMode="search"
-                onSubmitEditing={() => setPeopleName(text)}
+                onSubmitEditing={handleSearch}
             />
             <View style={styles.searchIcon}>
                 <Icon
