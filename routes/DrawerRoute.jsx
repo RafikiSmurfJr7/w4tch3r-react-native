@@ -125,7 +125,7 @@ export default function DrawerRoute() {
       <Drawer.Navigator
         screenOptions={{ headerShown: false }}
         backBehavior="history"
-        initialRouteName="Home"
+        initialRouteName="Category"
         drawerContent={() => <DrawerMenu />}
       >
         {state.userToken != null ? (
@@ -138,6 +138,7 @@ export default function DrawerRoute() {
             <Drawer.Screen name="People" component={PeopleScreen} />
             <Drawer.Screen name="PeopleDetail" component={PeopleDetailScreen} />
             <Drawer.Screen name="Favorites" component={FavoritesScreen} />
+            <Drawer.Screen name="Category" component={CategoryScreen} />
           </>
         ) : (
           <>
