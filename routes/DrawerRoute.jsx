@@ -15,7 +15,6 @@ import FilmeScreen from "../screens/FilmeScreen";
 import FilmeDetailScreen from "../screens/FilmeDetailScreen";
 import PeopleScreen from "../screens/PeopleScreen";
 import PeopleDetailScreen from "../screens/PeopleDetailScreen";
-import FavoriteFilmScreen from "../screens/FavoriteFilmScreen";
 import CategoryScreen from "../screens/CategoryScreen";
 import DrawerMenu from "../components/DrawerMenu";
 import * as SecureStore from "expo-secure-store";
