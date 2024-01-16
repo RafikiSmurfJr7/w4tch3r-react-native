@@ -2,7 +2,7 @@ import { Button, StyleSheet, Text, View } from "react-native";
 import NavBar from "../components/NavBar";
 import { useContext, useState } from "react";
 import { ThemeColor } from "../context/ThemeColor";
-import Filters from "../components/Filters";
+import PeopleFilters from "../components/people/PeopleFilter";
 import PeoplePopularList from "../components/people/PeoplePopularList";
 import PeopleSearchList from "../components/people/PeopleSearchList";
 
@@ -28,7 +28,7 @@ export default function PeopleScreen({ navigation }) {
         <NavBar />
       </View>
       <View style={styles.subContainerFilter}>
-        <Filters setPeopleName={setPeopleName} peopleName={peopleName} />
+        <PeopleFilters setPeopleName={setPeopleName} peopleName={peopleName} />
       </View>
 
       {peopleName != "" ? (

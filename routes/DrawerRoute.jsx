@@ -15,6 +15,8 @@ import FilmeScreen from "../screens/FilmeScreen";
 import FilmeDetailScreen from "../screens/FilmeDetailScreen";
 import PeopleScreen from "../screens/PeopleScreen";
 import PeopleDetailScreen from "../screens/PeopleDetailScreen";
+import FavoriteFilmScreen from "../screens/FavoriteFilmScreen";
+import CategoryScreen from "../screens/CategoryScreen";
 import DrawerMenu from "../components/DrawerMenu";
 import * as SecureStore from "expo-secure-store";
 import { backendApi } from "../config/axios.conf";
@@ -70,6 +72,10 @@ export default function DrawerRoute() {
     bootstrapAsync();
   }, []);
 
+  if (state.isLoading) {
+    return <ActivityIndicator size="large" color="#ffffff" />;
+  }
+
   const authContext = {
     signIn: async (data) => {
       let userToken = null;
@@ -115,6 +121,7 @@ export default function DrawerRoute() {
     <AuthContext.Provider value={authContext}>
       <Drawer.Navigator
         screenOptions={{ headerShown: false }}
+        backBehavior="history"
         initialRouteName="Home"
         drawerContent={() => <DrawerMenu />}
       >
