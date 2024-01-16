@@ -18,7 +18,6 @@ import PeopleDetailScreen from "../screens/PeopleDetailScreen";
 import FavoriteFilmScreen from "../screens/FavoriteFilmScreen";
 import CategoryScreen from "../screens/CategoryScreen";
 import DrawerMenu from "../components/DrawerMenu";
-import ProfileScreen from "../screens/ProfileScreen";
 import * as SecureStore from "expo-secure-store";
 import { backendApi } from "../config/axios.conf";
 import { AuthContext } from "../context/AuthContext";
@@ -174,7 +173,6 @@ export default function DrawerRoute() {
             <Drawer.Screen name="People" component={PeopleScreen} />
             <Drawer.Screen name="PeopleDetail" component={PeopleDetailScreen} />
             <Drawer.Screen name="FavoriteFilm" component={FavoriteFilmScreen} />
-            <Drawer.Screen name="Perfil" component={ProfileScreen}/>
           </>
         ) : (
           <>
