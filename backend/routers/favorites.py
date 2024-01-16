@@ -8,7 +8,7 @@ router = APIRouter(prefix="/favorites")
 
 
 @router.get('/')
-def index_auth(id:int | None):
+def index_fav(id:int | None):
     query = favorites.find({'user_id': id},{"_id":0})
       
     response = list()
@@ -22,3 +22,9 @@ def index_auth(id:int | None):
         return response   
 
 
+@router.delete('/delete/{fav_id}')
+def delete_fav(fav_id:int | None):
+    
+    favorites.delete_one({"fav_id":fav_id})
+    
+    return {}
