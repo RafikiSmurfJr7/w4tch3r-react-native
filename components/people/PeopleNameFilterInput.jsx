@@ -3,7 +3,7 @@ import React, { useContext, useState } from "react";
 import { Icon, Input, color } from "@rneui/base";
 import { ThemeColor } from "../../context/ThemeColor";
 
-export default function SerieNameFilterInput({ setSerieName, serieName }) {
+export default function PeopleNameFilterInput({ setPeopleName, peopleName }) {
     const colors = useContext(ThemeColor);
 
     const [text, setText] = useState("");
@@ -25,14 +25,15 @@ export default function SerieNameFilterInput({ setSerieName, serieName }) {
     };
 
     const handleSearch = () => {
-        setSerieName(text);
+        setPeopleName(text);
         setText('');
     };
+
     return (
         <View>
             <TextInput
                 style={styles.input}
-                placeholder="Serie name..."
+                placeholder="Person name..."
                 onChangeText={setText}
                 value={text}
                 inputMode="search"

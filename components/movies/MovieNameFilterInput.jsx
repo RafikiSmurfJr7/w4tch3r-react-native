@@ -1,6 +1,6 @@
-import { View, Text, StyleSheet, TextInput } from "react-native";
+import { View, TextInput } from "react-native";
 import React, { useContext, useState } from "react";
-import { Icon, Input, color } from "@rneui/base";
+import { Icon } from "@rneui/base";
 import { ThemeColor } from "../../context/ThemeColor";
 
 export default function MovieNameFilterInput({ setMovieName, movieName }) {
@@ -24,6 +24,11 @@ export default function MovieNameFilterInput({ setMovieName, movieName }) {
         },
     };
 
+    const handleSearch = () => {
+        setMovieName(text);
+        setText('');
+    };
+
     return (
         <View>
             <TextInput
@@ -32,7 +37,7 @@ export default function MovieNameFilterInput({ setMovieName, movieName }) {
                 onChangeText={setText}
                 value={text}
                 inputMode="search"
-                onSubmitEditing={() => setMovieName(text)}
+                onSubmitEditing={handleSearch}
             />
             <View style={styles.searchIcon}>
                 <Icon
