@@ -3,7 +3,7 @@ from pymongo.server_api import ServerApi
 import pprint
 
 # Replace the placeholder with your Atlas connection string
-uri = "mongodb://localhost:27017"
+uri = "mongodb://user:pass@localhost:27017"
 
 # Set the Stable API version when creating a new client
 client = MongoClient(uri)
@@ -14,6 +14,7 @@ try:
     print("Pinged your deployment. You successfully connected to MongoDB!")
     db = client.w4tch3r
     users = db.users
+    favorites = db.favorites
 except Exception as e:
     print(e) 
 
