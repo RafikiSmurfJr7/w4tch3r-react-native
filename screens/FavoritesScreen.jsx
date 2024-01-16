@@ -6,6 +6,7 @@ import { backendApi } from "../config/axios.conf";
 import ErrorAlert from "../components/ErrorAlert";
 import NavBar from "../components/NavBar";
 import FavContainer from "../components/favorites/FavContainer";
+import { AuthContext } from "../context/AuthContext";
 
 export default function FavoritesScreen() {
   const colors = useThemeColor();
@@ -13,7 +14,10 @@ export default function FavoritesScreen() {
   const [favorites, setFavorites] = useState([]);
   const [error, setError] = useState(false);
 
-  const [refresh, updateRefres] = useState(false);
+  const [refresh, updateRefresh] = useState(false);
+
+  const { getToken } = useContext(AuthContext);
+  const userToken = getToken();
 
   styles = {
     container: {
@@ -30,9 +34,10 @@ export default function FavoritesScreen() {
 
   useFocusEffect(
     useCallback(() => {
-      updateRefres(false);
+      updateRefresh(false);
+      console.log(getToken());
       backendApi
-        .get("/favorites/?id=1")
+        .get(`/favorites/?token=${userToken}`)
         .then((res) => {
           console.log(res.data);
           setFavorites(res.data);
@@ -56,7 +61,7 @@ export default function FavoritesScreen() {
           renderItem={({ item }) => (
             <>
               <FavContainer
-                updateRefres={updateRefres}
+                updateRefresh={updateRefresh}
                 tmdb_id={item.tmdb_id}
                 fav_id={item.fav_id}
               />

@@ -6,7 +6,7 @@ import { backendApi, tmdbApi } from "../../config/axios.conf";
 import { Image } from "react-native";
 import { Icon } from "@rneui/base";
 
-export default function FavContainer({ tmdb_id, fav_id, updateRefres }) {
+export default function FavContainer({ tmdb_id, fav_id, updateRefresh }) {
   const navigation = useNavigation();
   const colors = useThemeColor();
 
@@ -63,7 +63,7 @@ export default function FavContainer({ tmdb_id, fav_id, updateRefres }) {
 
   const removeFromFavorite = () => {
     backendApi.delete(`/favorites/delete/${fav_id}`).then((res) => {
-      updateRefres(true);
+      updateRefresh(true);
     });
   };
 

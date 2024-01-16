@@ -110,6 +110,10 @@ export default function DrawerRoute() {
       }
       dispatch({ type: "SIGN_OUT" });
     },
+    getToken: () => {
+      token = state.userToken;
+      return token;
+    },
   };
 
   if (state.isLoading) {
