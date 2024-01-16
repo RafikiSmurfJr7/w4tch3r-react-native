@@ -4,6 +4,7 @@ import React, { useEffect, useState, useContext } from "react";
 import { ThemeColor } from "../context/ThemeColor";
 import { Icon } from "@rneui/base";
 
+
 const ModalPoup = ({visible, children}) => {
   const [showModal, setShowModal] = React.useState(visible);
   const scaleValue = React.useRef(new Animated.Value(0)).current;

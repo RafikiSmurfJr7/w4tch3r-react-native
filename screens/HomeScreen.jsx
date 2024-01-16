@@ -2,6 +2,7 @@ import { Button, StyleSheet, Switch, Text, View } from "react-native";
 import NavBar from "../components/NavBar";
 import { useContext, useState } from "react";
 import { ThemeColor } from "../context/ThemeColor";
+import MovieFilters from "../components/movies/MovieFilter";
 import Filters from "../components/Filters";
 import SeriePopularList from "../components/series/SeriePopularList";
 import MovieSearchList from "../components/movies/MovieSearchList";
@@ -18,21 +19,18 @@ export default function HomeScreen({ navigation }) {
         subContainerNavBar: {},
         subContainerFilter: {},
         listContainer: {
-            flex: 1,
+            marginBottom:4,
             marginTop: 10,
         },
         texto: {
             color: "#ffffff",
-        },
-        listContainer: {
-            flex: 1,
-            marginTop: 10,
         },
         switchContainer: {
             flexDirection: "row",
             alignItems: "center",
             justifyContent: "center",
             marginTop: 10,
+            margin:18
         },
         switchLabel: {
             color: colors.white,
@@ -42,7 +40,7 @@ export default function HomeScreen({ navigation }) {
 
     const [movieName, setMovieName] = useState("");
     const [showTopRated, setShowTopRated] = useState(true);
-
+    
     return (
         <View style={styles.container}>
             <View style={styles.subContainerNavBar}>
@@ -55,7 +53,7 @@ export default function HomeScreen({ navigation }) {
                     selectedColor={"#fff"}
                     buttonColor={colors.blue}
                     borderColor={"#ffffff"}
-                    valuePadding={2}
+                    valuePadding={1}
                     hasPadding
                     onPress={(value) => setShowTopRated(!showTopRated)}
                     options={[
@@ -68,9 +66,9 @@ export default function HomeScreen({ navigation }) {
                 {movieName !== "" ? (
                     <MovieSearchList movieName={movieName} />
                 ) : showTopRated ? (
-                    <MoviesPopularList />
+                    <MoviesPopularList /> 
                 ) : (
-                    <SeriePopularList />
+                    <SeriePopularList /> 
                 )}
             </View>
         </View>
