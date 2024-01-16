@@ -26,6 +26,8 @@ export default function FilmeScreen({ navigation, route }) {
             alignItems: "center",
             justifyContent: "center",
             marginTop: 10,
+            margin:18
+
         },
         switchLabel: {
             color: colors.white,
