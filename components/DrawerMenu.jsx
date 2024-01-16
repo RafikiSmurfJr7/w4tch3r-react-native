@@ -20,10 +20,6 @@ export default function DrawerMenu({ navigation }) {
       >
         People
       </DrawerLinkItems>
-      <DrawerLinkItems navigation={navigation} navigatePage="Perfil" icon="pencil">
-        Perfil
-      </DrawerLinkItems>
-      
       <DrawerLinkItems logout navigation={navigation} icon="sign-out">
         Logout
       </DrawerLinkItems>
