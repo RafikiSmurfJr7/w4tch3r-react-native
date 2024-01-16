@@ -31,7 +31,9 @@
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png"
-      }
+
+      },
+      "softwareKeyboardLayoutMode":"pan"
     },
     "web": {
       "favicon": "./assets/favicon.png"
