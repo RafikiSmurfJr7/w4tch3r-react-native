@@ -2,7 +2,10 @@
   "_id": {
     "$oid": "654927a178f45cf789b4d186"
   },
-  "username": "Rafa",
-  "password": "teste",
-  "token": "123"
+  "username": "user",
+  "password": "user",
+  "token": "123",
+  "user_id": {
+    "$numberLong": "1"
+  }
 }]

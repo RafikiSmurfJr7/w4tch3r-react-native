@@ -19,7 +19,7 @@ export default function DrawerMenu({ navigation }) {
       <DrawerLinkItems
         navigation={navigation}
         navigatePage="People"
-        icon="star"
+        icon="group"
       >
         People
       </DrawerLinkItems>
@@ -29,6 +29,20 @@ export default function DrawerMenu({ navigation }) {
         icon="star"
       >
         Favoritos
+      </DrawerLinkItems>
+      <DrawerLinkItems
+        navigation={navigation}
+        navigatePage="Category"
+        icon="list"
+      >
+        Categorias
+      </DrawerLinkItems>
+      <DrawerLinkItems
+        navigation={navigation}
+        navigatePage="Perfil"
+        icon="user"
+      >
+        Perfil
       </DrawerLinkItems>
       <DrawerLinkItems logout navigation={navigation} icon="sign-out">
         Logout

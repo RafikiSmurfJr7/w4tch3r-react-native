@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 import {
   Image,
   ImageBackground,
@@ -7,116 +7,78 @@ import {
   View,
   TouchableOpacity,
   ActivityIndicator,
+  Pressable,
 } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
-import Icon from "react-native-vector-icons/Ionicons";
 import { Iframe } from "@bounceapp/iframe";
-import { useRoute } from "@react-navigation/native";
+import { useFocusEffect, useRoute } from "@react-navigation/native";
 import NavBar from "../components/NavBar";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { tmdbApi } from "../config/axios.conf";
+import { backendApi, tmdbApi } from "../config/axios.conf";
+import { Icon } from "@rneui/base";
+import { AuthContext } from "../context/AuthContext";
 
 export default function FilmeDetailScreen({}) {
   const route = useRoute();
   const [movieData, setMovieData] = useState();
-  const [isWatchLaterClicked, setIsWatchLaterClicked] = useState(false);
-  const [favoritos, setFavoritos] = useState([]);
+  const [isFav, setIsFav] = useState(false);
+  const { getToken } = useContext(AuthContext);
+  const userToken = getToken();
+  const [favId, setFavId] = useState(0);
 
-  useEffect(() => {
-    tmdbApi
-      .get(`/movie/${route.params.id}`)
-      .then((res) => {
-        setMovieData(res.data);
-      })
-      .catch((err) => {});
-  }, [route.params.id]);
+  useFocusEffect(
+    useCallback(() => {
+      setIsFav(false);
 
-  useEffect(() => {
-    const loadFavorites = async () => {
-      try {
-        const storedFavorites = await AsyncStorage.getItem("favorites");
-        if (storedFavorites) {
-          setFavoritos(JSON.parse(storedFavorites));
-        }
-      } catch (error) {
-        console.error("Error loading favorites:", error);
-      }
-    };
+      tmdbApi
+        .get(`/movie/${route.params.id}`)
+        .then((res) => {
+          setMovieData(res.data);
+        })
+        .catch((err) => {});
 
-    const checkIsWatchLater = async () => {
-      try {
-        const storedWatchLater = await AsyncStorage.getItem("watchLater");
-        const watchLaterList = storedWatchLater
-          ? JSON.parse(storedWatchLater)
-          : [];
-        const isAlreadyInWatchLater = watchLaterList.some(
-          (item) => item.id === movieData?.id
-        );
-        setIsWatchLaterClicked(isAlreadyInWatchLater);
-      } catch (error) {
-        console.error(
-          'Error checking if movie is in "Assistir Mais Tarde":',
-          error
-        );
-      }
-    };
+      backendApi
+        .get(`/favorites/?token=${userToken}`)
+        .then((res) => {
+          console.log(res);
+          const favorites = res.data;
+          let isFavorite = false;
+          favorites.map((e) => {
+            if (e.tmdb_id == route.params.id) {
+              isFavorite = true;
+              setFavId(e.fav_id);
+            }
+          });
+          setIsFav(isFavorite);
+        })
+        .catch((err) => console.log(err));
+    }, [route.params.id])
+  );
 
-    loadFavorites();
-    checkIsWatchLater();
-  }, [movieData]);
-
-  const isFavorito = favoritos.some((fav) => fav.id === movieData?.id);
-
-  const toggleFavorite = async () => {
-    try {
-      let updatedFavorites = [...favoritos];
-
-      const isAlreadyFavorited = updatedFavorites.some(
-        (fav) => fav.id === movieData.id
-      );
-
-      if (isAlreadyFavorited) {
-        updatedFavorites = updatedFavorites.filter(
-          (fav) => fav.id !== movieData.id
-        );
-      } else {
-        updatedFavorites.push({ id: movieData.id, title: movieData.title });
-      }
-
-      await AsyncStorage.setItem("favorites", JSON.stringify(updatedFavorites));
-      setFavoritos(updatedFavorites);
-    } catch (error) {
-      console.error("Error manipulating favorites:", error);
+  const handlePressFavorite = () => {
+    if (!isFav) {
+      backendApi
+        .post("/favorites/create", {
+          user_token: String(userToken),
+          tmdb_id: String(movieData.id),
+        })
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } else {
+      console.log(favId);
+      backendApi.delete(`/favorites/delete/${favId}`);
     }
+    setIsFav((prev) => !prev);
   };
 
-  const handleWatchLater = async () => {
-    try {
-      const storedWatchLater = await AsyncStorage.getItem("watchLater");
-      let watchLaterList = storedWatchLater ? JSON.parse(storedWatchLater) : [];
-
-      const isAlreadyInWatchLater = watchLaterList.some(
-        (item) => item.id === movieData.id
-      );
-
-      if (isAlreadyInWatchLater) {
-        watchLaterList = watchLaterList.filter(
-          (item) => item.id !== movieData.id
-        );
-      } else {
-        watchLaterList.push({
-          id: movieData.id,
-          title: movieData.title,
-          poster_path: movieData.poster_path,
-          vote_average: movieData.vote_average,
-        });
-      }
-
-      await AsyncStorage.setItem("watchLater", JSON.stringify(watchLaterList));
-      setIsWatchLaterClicked(!isWatchLaterClicked);
-    } catch (error) {
-      console.error('Error manipulating "Assistir Mais Tarde":', error);
-    }
+  const removeFromFavorite = (fav_id) => {
+    backendApi.delete(`/favorites/delete/${fav_id}`).then((res) => {
+      updateRefresh(true);
+    });
   };
 
   return (
@@ -136,26 +98,6 @@ export default function FilmeDetailScreen({}) {
               style={styles.imageTransparent}
             >
               <NavBar />
-              <TouchableOpacity
-                style={styles.starContainer}
-                onPress={toggleFavorite}
-              >
-                <Icon
-                  name={isFavorito ? "star" : "star-outline"}
-                  size={30}
-                  color="yellow"
-                />
-              </TouchableOpacity>
-              <TouchableOpacity
-                onPress={handleWatchLater}
-                style={{ position: "absolute", top: 72, right: 80, zIndex: 1 }}
-              >
-                <Icon
-                  name="time"
-                  size={30}
-                  color={isWatchLaterClicked ? "orange" : "white"}
-                />
-              </TouchableOpacity>
               <View style={styles.movieInfoContainer}>
                 <Image
                   source={{
@@ -163,8 +105,9 @@ export default function FilmeDetailScreen({}) {
                   }}
                   style={styles.poster}
                 />
+
                 <View style={{ alignSelf: "center", width: 150 }}>
-                  <Text style={styles.movieInfoText}>{movieData.title}</Text>
+                  <Text style={styles.movieInfoText}>{movieData.title} </Text>
                   <Text style={styles.movieInfoText}>
                     ({movieData.release_date.slice(0, 4)})
                   </Text>
@@ -185,6 +128,18 @@ export default function FilmeDetailScreen({}) {
                   <Text style={styles.movieInfoText}>
                     Time: {movieData.runtime} min
                   </Text>
+
+                  <Pressable
+                    onPress={handlePressFavorite}
+                    style={{ marginTop: 2, alignSelf: "flex-start" }}
+                  >
+                    <Icon
+                      name="star"
+                      type="font-awesome-5"
+                      color="#F7D730"
+                      solid={isFav}
+                    />
+                  </Pressable>
                 </View>
               </View>
               <View style={styles.movieDescriptionContainer}>
@@ -223,12 +178,6 @@ const styles = StyleSheet.create({
   imageTransparent: {
     flex: 1,
     height: "100%",
-  },
-  starContainer: {
-    position: "absolute",
-    top: 70,
-    right: 40,
-    zIndex: 1,
   },
   movieInfoContainer: {
     flexDirection: "row",

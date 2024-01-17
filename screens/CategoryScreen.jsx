@@ -1,72 +1,73 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, Image, ScrollView, TouchableOpacity } from 'react-native';
 import SwitchSelector from 'react-native-switch-selector';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import NavBar from '../components/NavBar';
 import { tmdbApi } from '../config/axios.conf';
-import { useThemeColor } from "../context/ThemeColor"; // Importa o contexto de tema
+import { useThemeColor } from "../context/ThemeColor";
 
 const CategoryScreen = () => {
   const navigation = useNavigation();
-  const { blue, white, text } = useThemeColor(); // Obtém as cores do tema
+  const { blue, white, text } = useThemeColor();
 
   const [moviesByCategory, setMoviesByCategory] = useState({});
   const [seriesByCategory, setSeriesByCategory] = useState({});
   const [showMovies, setShowMovies] = useState(true);
+  const [genres, setGenres] = useState([]);
+
+  const fetchDataByCategory = async (category, isMovie) => {
+    try {
+      const mediaType = isMovie ? 'movie' : 'tv';
+      const response = await tmdbApi.get(`/discover/${mediaType}`, {
+        params: {
+          with_genres: category.id,
+        },
+      });
+
+      return response.data.results;
+    } catch (error) {
+      console.error(`Error fetching ${isMovie ? 'movies' : 'series'} by category:`, error);
+      return [];
+    }
+  };
+
+  const fetchAllCategories = async () => {
+    try {
+      const genreRequests = genres.map(async (genre) => ({
+        [genre.name]: {
+          movies: await fetchDataByCategory(genre, true),
+          series: await fetchDataByCategory(genre, false),
+        },
+      }));
+
+      const results = await Promise.all(genreRequests);
+      const moviesResult = results.reduce((acc, cur) => ({ ...acc, ...cur }), {});
+      setMoviesByCategory(moviesResult);
+      const seriesResult = results.reduce((acc, cur) => ({ ...acc, ...cur }), {});
+      setSeriesByCategory(seriesResult);
+    } catch (error) {
+      console.error('Error fetching categories:', error);
+    }
+  };
+
+  const fetchGenres = async () => {
+    try {
+      const response = await tmdbApi.get('/genre/movie/list');
+      setGenres(response.data.genres);
+    } catch (error) {
+      console.error('Error fetching genres:', error);
+    }
+  };
 
   useEffect(() => {
-    const fetchDataByCategory = async (category, isMovie) => {
-      try {
-        const mediaType = isMovie ? 'movie' : 'tv';
-        const response = await tmdbApi.get(`/discover/${mediaType}`, {
-          params: {
-            with_genres: category.id,
-          },
-        });
-
-        if (isMovie) {
-          setMoviesByCategory((prevMoviesByCategory) => ({
-            ...prevMoviesByCategory,
-            [category.name]: response.data.results,
-          }));
-        } else {
-          setSeriesByCategory((prevSeriesByCategory) => ({
-            ...prevSeriesByCategory,
-            [category.name]: response.data.results,
-          }));
-        }
-      } catch (error) {
-        console.error(`Error fetching ${isMovie ? 'movies' : 'series'} by category:`, error);
-      }
-    };
-
-    const genres = [
-      { id: 28, name: 'Action' },
-      { id: 12, name: 'Adventure' },
-      { id: 16, name: 'Animation' },
-      { id: 35, name: 'Comedy' },
-      { id: 80, name: 'Crime' },
-      { id: 99, name: 'Documentary' },
-      { id: 18, name: 'Drama' },
-      { id: 10751, name: 'Family' },
-      { id: 14, name: 'Fantasy' },
-      { id: 36, name: 'History' },
-      { id: 27, name: 'Horror' },
-      { id: 10402, name: 'Music' },
-      { id: 9648, name: 'Mystery' },
-      { id: 10749, name: 'Romance' },
-      { id: 878, name: 'Science Fiction' },
-      { id: 10770, name: 'TV Movie' },
-      { id: 53, name: 'Thriller' },
-      { id: 10752, name: 'War' },
-      { id: 37, name: 'Western' },
-    ];
-
-    genres.forEach((genre) => {
-      fetchDataByCategory(genre, true);
-      fetchDataByCategory(genre, false);
-    });
+    fetchGenres();
   }, []);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      fetchAllCategories();
+    }, [genres])
+  );
 
   const handleMediaPress = (mediaId, isMovie) => {
     const screenName = isMovie ? 'FilmeDetail' : 'SerieDetail';
@@ -100,7 +101,7 @@ const CategoryScreen = () => {
       </View>
       <ScrollView style={styles.content}>
         {showMovies
-          ? Object.entries(moviesByCategory).map(([category, movies]) => (
+          ? Object.entries(moviesByCategory).map(([category, { movies }]) => (
               <View key={category}>
                 <Text style={styles.categoryTitle}>{category} Movies</Text>
                 <ScrollView horizontal showsHorizontalScrollIndicator={false}>
@@ -122,7 +123,7 @@ const CategoryScreen = () => {
                 </ScrollView>
               </View>
             ))
-          : Object.entries(seriesByCategory).map(([category, series]) => (
+          : Object.entries(seriesByCategory).map(([category, { series }]) => (
               <View key={category}>
                 <Text style={styles.categoryTitle}>{category} Series</Text>
                 <ScrollView horizontal showsHorizontalScrollIndicator={false}>
