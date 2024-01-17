@@ -1,0 +1,17 @@
+[{
+    "_id": {
+      "$oid": "65a7094b89a2e5b75fed8c0a"
+    },
+    "fav_id": 3,
+    "user_id": {
+      "$numberLong": "1"
+    },
+    "tmdb_id": "753342"
+  },
+  {
+    "fav_id": 4,
+    "user_id": {
+      "$numberLong": "1"
+    },
+    "tmdb_id": "906126"
+  }]
