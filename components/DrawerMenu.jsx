@@ -37,6 +37,13 @@ export default function DrawerMenu({ navigation }) {
       >
         Categorias
       </DrawerLinkItems>
+      <DrawerLinkItems
+        navigation={navigation}
+        navigatePage="Perfil"
+        icon="user"
+      >
+        Perfil
+      </DrawerLinkItems>
       <DrawerLinkItems logout navigation={navigation} icon="sign-out">
         Logout
       </DrawerLinkItems>

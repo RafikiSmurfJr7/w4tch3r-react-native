@@ -144,18 +144,22 @@ export default function ProfileScreen({}) {
         <View style={{alignItems: 'center'}}>
           <View style={styles.header}>
             <TouchableOpacity onPress={() => setVisible(false)}>
-              { <Image
+              { 
+                {/* <Image
                 source={require('../assets/x.png')}
                 style={{height: 30, width: 30,marginLeft:250}}
-              /> }
+              /> */}
+               }
             </TouchableOpacity>
           </View>
         </View>
         <View style={{alignItems: 'center'}}>
-          { <Image
+          {
+             {/* <Image
             source={require('../assets/success.png')}
             style={{height: 150, width: 150, marginVertical: 10}}
-          /> }
+          /> */}
+           }
         </View>
 
         <Text style={{marginVertical: 30, fontSize: 20, textAlign: 'center'}}>
