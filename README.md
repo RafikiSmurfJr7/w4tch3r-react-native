@@ -6,7 +6,7 @@
 
 Para executar o servidor de backend feito em [Python](https://python.org) e [FastApi](https://fastapi.tiangolo.com/)
 
-Criar um ambiente virtual (Virtual Envoirement) usando o [`venv`](https://docs.python.org/3/library/venv.html) dentro da pasta `backend/`
+Criar um ambiente virtual (Virtual Environment) usando o [`venv`](https://docs.python.org/3/library/venv.html) dentro da pasta `backend/`
 
 > `python -m venv env`
 
