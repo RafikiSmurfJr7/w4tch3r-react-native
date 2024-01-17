@@ -15,7 +15,7 @@ import FilmeScreen from "../screens/FilmeScreen";
 import FilmeDetailScreen from "../screens/FilmeDetailScreen";
 import PeopleScreen from "../screens/PeopleScreen";
 import PeopleDetailScreen from "../screens/PeopleDetailScreen";
-import ProfileScreen from '../screens/ProfileScreen';
+import ProfileScreen from "../screens/ProfileScreen";
 import CategoryScreen from "../screens/CategoryScreen";
 import FavoritesScreen from "../screens/FavoritesScreen";
 import DrawerMenu from "../components/DrawerMenu";
@@ -138,9 +138,9 @@ export default function DrawerRoute() {
             <Drawer.Screen name="FilmeDetail" component={FilmeDetailScreen} />
             <Drawer.Screen name="People" component={PeopleScreen} />
             <Drawer.Screen name="PeopleDetail" component={PeopleDetailScreen} />
+            <Drawer.Screen name="ProfileScreen" component={ProfileScreen}/>
             <Drawer.Screen name="Favorites" component={FavoritesScreen} />
-            <Drawer.Screen name="Category" component={CategoryScreen} />
-            <Drawer.Screen name="Perfil" component={ProfileScreen} />
+            <Drawer.Screen name="CategoryScreen" component={CategoryScreen}/>
           </>
         ) : (
           <>
