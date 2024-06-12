@@ -1,9 +1,16 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, Image, ScrollView, TouchableOpacity } from 'react-native';
-import SwitchSelector from 'react-native-switch-selector';
-import { useNavigation, useFocusEffect } from '@react-navigation/native';
-import NavBar from '../components/NavBar';
-import { tmdbApi } from '../config/axios.conf';
+import React, { useState, useEffect } from "react";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  ScrollView,
+  TouchableOpacity,
+} from "react-native";
+import SwitchSelector from "react-native-switch-selector";
+import { useNavigation, useFocusEffect } from "@react-navigation/native";
+import NavBar from "../components/NavBar";
+import { tmdbApi } from "../config/axios.conf";
 import { useThemeColor } from "../context/ThemeColor";
 
 const CategoryScreen = () => {
@@ -17,7 +24,7 @@ const CategoryScreen = () => {
 
   const fetchDataByCategory = async (category, isMovie) => {
     try {
-      const mediaType = isMovie ? 'movie' : 'tv';
+      const mediaType = isMovie ? "movie" : "tv";
       const response = await tmdbApi.get(`/discover/${mediaType}`, {
         params: {
           with_genres: category.id,
@@ -26,7 +33,10 @@ const CategoryScreen = () => {
 
       return response.data.results;
     } catch (error) {
-      console.error(`Error fetching ${isMovie ? 'movies' : 'series'} by category:`, error);
+      console.error(
+        `Error fetching ${isMovie ? "movies" : "series"} by category:`,
+        error
+      );
       return [];
     }
   };
@@ -41,21 +51,27 @@ const CategoryScreen = () => {
       }));
 
       const results = await Promise.all(genreRequests);
-      const moviesResult = results.reduce((acc, cur) => ({ ...acc, ...cur }), {});
+      const moviesResult = results.reduce(
+        (acc, cur) => ({ ...acc, ...cur }),
+        {}
+      );
       setMoviesByCategory(moviesResult);
-      const seriesResult = results.reduce((acc, cur) => ({ ...acc, ...cur }), {});
+      const seriesResult = results.reduce(
+        (acc, cur) => ({ ...acc, ...cur }),
+        {}
+      );
       setSeriesByCategory(seriesResult);
     } catch (error) {
-      console.error('Error fetching categories:', error);
+      console.error("Error fetching categories:", error);
     }
   };
 
   const fetchGenres = async () => {
     try {
-      const response = await tmdbApi.get('/genre/movie/list');
+      const response = await tmdbApi.get("/genre/movie/list");
       setGenres(response.data.genres);
     } catch (error) {
-      console.error('Error fetching genres:', error);
+      console.error("Error fetching genres:", error);
     }
   };
 
@@ -70,7 +86,7 @@ const CategoryScreen = () => {
   );
 
   const handleMediaPress = (mediaId, isMovie) => {
-    const screenName = isMovie ? 'FilmeDetail' : 'SerieDetail';
+    const screenName = isMovie ? "FilmeDetail" : "SerieDetail";
     navigation.navigate(screenName, { id: mediaId });
   };
 
@@ -79,8 +95,8 @@ const CategoryScreen = () => {
   };
 
   const switchOptions = [
-    { label: 'Filmes', value: true },
-    { label: 'Séries', value: false },
+    { label: "Filmes", value: true },
+    { label: "Séries", value: false },
   ];
 
   return (
@@ -113,7 +129,9 @@ const CategoryScreen = () => {
                         onPress={() => handleMediaPress(movie.id, true)}
                       >
                         <Image
-                          source={{ uri: `https://image.tmdb.org/t/p/w500${movie.poster_path}` }}
+                          source={{
+                            uri: `https://image.tmdb.org/t/p/w500${movie.poster_path}`,
+                          }}
                           style={styles.mediaImage}
                         />
                         <Text style={styles.mediaTitle}>{movie.title}</Text>
@@ -135,7 +153,9 @@ const CategoryScreen = () => {
                         onPress={() => handleMediaPress(serie.id, false)}
                       >
                         <Image
-                          source={{ uri: `https://image.tmdb.org/t/p/w500${serie.poster_path}` }}
+                          source={{
+                            uri: `https://image.tmdb.org/t/p/w500${serie.poster_path}`,
+                          }}
                           style={styles.mediaImage}
                         />
                         <Text style={styles.mediaTitle}>{serie.name}</Text>
@@ -153,41 +173,41 @@ const CategoryScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#021F3A',
+    backgroundColor: "#021F3A",
   },
   switchContainer: {
-    flexDirection: 'row',
-    justifyContent: 'center',
+    flexDirection: "row",
+    justifyContent: "center",
     marginTop: 20,
   },
   switchSelector: {
-    width: '80%',
+    width: "80%",
   },
   content: {
     flex: 1,
     marginHorizontal: 20,
   },
   categoryTitle: {
-    color: 'white',
+    color: "white",
     fontSize: 18,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginTop: 20,
     marginBottom: 10,
   },
   mediaContainer: {
-    flexDirection: 'row',
+    flexDirection: "row",
   },
   mediaItemContainer: {
     width: 150,
     marginRight: 10,
   },
   mediaImage: {
-    width: '100%',
+    width: "100%",
     height: 150,
     borderRadius: 10,
   },
   mediaTitle: {
-    color: 'white',
+    color: "white",
     marginTop: 5,
   },
 });

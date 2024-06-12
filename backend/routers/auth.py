@@ -21,3 +21,20 @@ async def auth_login(user: User):
                 raise HTTPException(status_code=401, detail="Invalid Data!")
 
 
+@router.get('/user')
+async def auth_user(token:str | None):
+        
+        response = users.find_one({"token": token},{"_id": 0})
+        return response
+
+
+
+@router.put('/user/update')
+async def auth_user_update(user: User):
+        
+        response = users.update_one({"token": user.token}, {"$set": {"username": user.username, "email": user.email}})
+
+        response = users.find_one({"token": user.token},{"_id":0})
+
+
+        return response

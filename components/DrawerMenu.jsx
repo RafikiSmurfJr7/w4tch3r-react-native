@@ -40,7 +40,7 @@ export default function DrawerMenu({ navigation }) {
       <DrawerLinkItems
         navigation={navigation}
         navigatePage="CategoryScreen"
-        icon="magic"
+        icon="list"
       >
         Categoria
       </DrawerLinkItems>
